@@ -4,6 +4,8 @@ ADDED from C:\Users\Mike\Documents\HikeLocator\android\app\src\main\AndroidManif
 INJECTED from C:\Users\Mike\Documents\HikeLocator\android\app\src\main\AndroidManifest.xml:1:1-39:12
 INJECTED from C:\Users\Mike\Documents\HikeLocator\android\app\src\main\AndroidManifest.xml:1:1-39:12
 INJECTED from C:\Users\Mike\Documents\HikeLocator\android\app\src\main\AndroidManifest.xml:1:1-39:12
+MERGED from [:sqflite] C:\Users\Mike\Documents\HikeLocator\build\sqflite\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:2:1-7:12
+MERGED from [:path_provider] C:\Users\Mike\Documents\HikeLocator\build\path_provider\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:2:1-7:12
 INJECTED from C:\Users\Mike\Documents\HikeLocator\android\app\src\main\AndroidManifest.xml:1:1-39:12
 INJECTED from C:\Users\Mike\Documents\HikeLocator\android\app\src\main\AndroidManifest.xml:1:1-39:12
 INJECTED from C:\Users\Mike\Documents\HikeLocator\android\app\src\main\AndroidManifest.xml:1:1-39:12
@@ -67,6 +69,10 @@ uses-sdk
 INJECTED from C:\Users\Mike\Documents\HikeLocator\android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\Mike\Documents\HikeLocator\android\app\src\main\AndroidManifest.xml
 INJECTED from C:\Users\Mike\Documents\HikeLocator\android\app\src\main\AndroidManifest.xml
+MERGED from [:sqflite] C:\Users\Mike\Documents\HikeLocator\build\sqflite\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:5:5-44
+MERGED from [:sqflite] C:\Users\Mike\Documents\HikeLocator\build\sqflite\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:5:5-44
+MERGED from [:path_provider] C:\Users\Mike\Documents\HikeLocator\build\path_provider\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:5:5-44
+MERGED from [:path_provider] C:\Users\Mike\Documents\HikeLocator\build\path_provider\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:5:5-44
 INJECTED from C:\Users\Mike\Documents\HikeLocator\android\app\src\main\AndroidManifest.xml
 INJECTED from C:\Users\Mike\Documents\HikeLocator\android\app\src\main\AndroidManifest.xml
 	android:targetSdkVersion
