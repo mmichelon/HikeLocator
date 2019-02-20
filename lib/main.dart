@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
+
+final FirebaseDatabase database = FirebaseDatabase.instance;
 
 void main() => runApp(new MyApp());
 
@@ -12,6 +17,14 @@ class MyApp extends StatelessWidget {
 }
 
 class HomeScreen extends StatelessWidget {
+  int _counter = 0;
+  void _testfunction() {
+    database.reference().child("messaged").set({
+      "firstname": "Charlie"
+    });
+    _counter++;
+
+  }
   @override
   Widget build (BuildContext ctxt) {
     return new Scaffold(
@@ -21,12 +34,14 @@ class HomeScreen extends StatelessWidget {
         body: new RaisedButton(
             child: Text("Click Me"),
             onPressed: () {
+              _testfunction();
               Navigator.push(
                 ctxt,
                 new MaterialPageRoute(builder: (ctxt) => new ListScreen()),
               );
             }
         )
+
     );
   }
 }
