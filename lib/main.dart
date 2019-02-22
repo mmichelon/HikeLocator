@@ -19,35 +19,35 @@ void main(){
 
 
 
-class HomeScreen extends StatelessWidget {
-  int _counter = 0;
-  void _testfunction() {
-    database.reference().child("messaged").set({
-      "firstname": "Charlie"
-    });
-    _counter++;
+// class HomeScreen extends StatelessWidget {
+//   int _counter = 0;
+//   void _testfunction() {
+//     database.reference().child("messaged").set({
+//       "firstname": "Charlie"
+//     });
+//     _counter++;
 
-  }
-  @override
-  Widget build (BuildContext ctxt) {
-    return new Scaffold(
-        appBar: new AppBar(
-          title: new Text("HikeLocator"),
-        ),
-        body: new RaisedButton(
-            child: Text("Click Me"),
-            onPressed: () {
-              _testfunction();
-              Navigator.push(
-                ctxt,
-                new MaterialPageRoute(builder: (ctxt) => new ListScreen()),
-              );
-            }
-        )
+//   }
+//   @override
+//   Widget build (BuildContext ctxt) {
+//     return new Scaffold(
+//         appBar: new AppBar(
+//           title: new Text("HikeLocator"),
+//         ),
+//         body: new RaisedButton(
+//             child: Text("Click Me"),
+//             onPressed: () {
+//               _testfunction();
+//               Navigator.push(
+//                 ctxt,
+//                 new MaterialPageRoute(builder: (ctxt) => new HomeScreen()),
+//               );
+//             }
+//         )
 
-    );
-  }
-}
+//     );
+//   }
+// }
 
 
 
