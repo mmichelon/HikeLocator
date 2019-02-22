@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "414345525067",
+    "firebase_url": "https://hikelocator-fe775.firebaseio.com",
+    "project_id": "hikelocator-fe775",
+    "storage_bucket": "hikelocator-fe775.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:414345525067:android:3b1b93ec71c3df6c",
+        "android_client_info": {
+          "package_name": "com.hikelocator.hikelocator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "414345525067-mjid0u7dqlu8qboaq9mapn6r265itqgr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hikelocator.hikelocator",
+            "certificate_hash": "78f5781d85948f6381021c27eb9a485acbaaee7c"
+          }
+        },
+        {
+          "client_id": "414345525067-4blk9dprl91lj05phgcqknca8rlc2rfh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvRxpyE7SFTPamTJo8UBEgcB6Sq207T5s"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "414345525067-4blk9dprl91lj05phgcqknca8rlc2rfh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
