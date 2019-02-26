@@ -11,15 +11,19 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
+  /// VARIABLES
  GoogleMapController mapController;
  MapType _currentMapType = MapType.normal;
+ final LatLng _center = const LatLng(39.7285, -121.8375);
 
- final LatLng _center = const LatLng(45.521563, -122.677433);
+ /// FUNCTIONS
 
+  /// creates controller and attempts to center map on phone location
  void _onMapCreated(GoogleMapController controller) {
    mapController = controller;
  }
 
+ /// swaps type of map view between normal and satellite
  void _onMapTypeButtonPressed() {
    if (_currentMapType == MapType.normal) {
      mapController.updateMapOptions(
@@ -34,6 +38,7 @@ class _MapScreenState extends State<MapScreen> {
    }
  }
 
+ /// adds marker to current center of map
  void _onAddMarkerButtonPressed() {
    mapController.addMarker(
      MarkerOptions(
@@ -47,12 +52,14 @@ class _MapScreenState extends State<MapScreen> {
    );
  }
 
+ /// BODY VIEW
+
  @override
  Widget build(BuildContext context) {
    return MaterialApp(
      home: Scaffold(
        appBar: AppBar(
-         title: Text('Maps Sample App'),
+         title: Text('Hikes Near Me'),
          backgroundColor: Colors.green[700],
        ),
        body: Stack(
@@ -60,6 +67,7 @@ class _MapScreenState extends State<MapScreen> {
            GoogleMap(
              onMapCreated: _onMapCreated,
              options: GoogleMapOptions(
+               myLocationEnabled: true,
                trackCameraPosition: true,
                cameraPosition: CameraPosition(
                  target: _center,
@@ -73,20 +81,19 @@ class _MapScreenState extends State<MapScreen> {
                alignment: Alignment.topRight,
                child: Column(
                  children: <Widget>[
-                   FloatingActionButton(
+                   FloatingActionButton( /// map view type normal or satellite
                      onPressed: _onMapTypeButtonPressed,
                      materialTapTargetSize: MaterialTapTargetSize.padded,
                      backgroundColor: Colors.green,
-		     heroTag: null,
+                     heroTag: null,
                      child: const Icon(Icons.map, size: 36.0),
-
                    ),
                    const SizedBox(height: 16.0),
-                   FloatingActionButton(
+                   FloatingActionButton( /// add marker to current center
                      onPressed: _onAddMarkerButtonPressed,
                      materialTapTargetSize: MaterialTapTargetSize.padded,
                      backgroundColor: Colors.green,
-		     heroTag: null,
+                     heroTag: null,
                      child: const Icon(Icons.add_location, size: 36.0),
                    ),
                  ],
