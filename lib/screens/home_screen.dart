@@ -3,6 +3,9 @@ import '../models/trail_model.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
 import '../screens/list_screen.dart';
+import 'package:firebase_database/firebase_database.dart';
+
+final FirebaseDatabase database = FirebaseDatabase.instance;
 class MyApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -11,16 +14,25 @@ class MyApp extends StatefulWidget {
 }
 
 class HomeScreen extends State<MyApp> {
+  int counter = 0;
   List<TrailModel> trails = [];
   Future<List<TrailModel>> fetchData() async {
     var response = await get(
         'https://www.hikingproject.com/data/get-trails?lat=39.733694&lon=-121.854771&maxDistance=10&key=200419778-6a46042e219d019001dd83b13d58aa59');
-
     var trailModel = TrailModel.fromJson(json.decode(response.body));
+    database.reference().child("counter").set({
+      "counter": counter
+    });
+    counter++;
     trails.clear();
     for(int i = 0; i < 10; i++){
       trails.add(trailModel);
     }
+    database.reference().child("counter").once().then((DataSnapshot snapshot){
+      Map<dynamic, dynamic> data = snapshot.value;
+
+      print("Values from db:  ${data.values}");
+    });
 
     return trails;
   }
@@ -39,8 +51,11 @@ class HomeScreen extends State<MyApp> {
                 context,
                 new MaterialPageRoute(builder: (context) => new ListScreen(trails)),
               );
+
             },
           ),
+
+
         ));
   }
 }
