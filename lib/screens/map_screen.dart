@@ -6,21 +6,28 @@ import '../models/trail_model.dart';
 import '../screens/home_screen.dart';
 
 class MapScreen extends StatefulWidget {
+  final double latitude;
+  final double longitude;
+  MapScreen(this.latitude, this.longitude);
   @override
-  _MapScreenState createState() => _MapScreenState();
+  _MapScreenState createState() => _MapScreenState(latitude, longitude);
 }
 
 class _MapScreenState extends State<MapScreen> {
   /// VARIABLES
  GoogleMapController mapController;
  MapType _currentMapType = MapType.normal;
- final LatLng _center = const LatLng(39.7285, -121.8375);
+ final double latitude;
+ final double longitude;
+ _MapScreenState(this.latitude, this.longitude);
+ //final LatLng _center = const LatLng(45.521563, -122.677433);
 
  /// FUNCTIONS
 
   /// creates controller and attempts to center map on phone location
  void _onMapCreated(GoogleMapController controller) {
    mapController = controller;
+   _onAddMarkerButtonPressed();
  }
 
  /// swaps type of map view between normal and satellite
@@ -70,8 +77,8 @@ class _MapScreenState extends State<MapScreen> {
                myLocationEnabled: true,
                trackCameraPosition: true,
                cameraPosition: CameraPosition(
-                 target: _center,
-                 zoom: 11.0,
+                 target: LatLng(latitude, longitude),
+                 zoom: 12.0,
                ),
              ),
            ),

@@ -43,7 +43,7 @@ class TrailList extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => new MapScreen(),
+                builder: (context) => new MapScreen(myText2[index]['latitude'], myText2[index]['longitude']),
               ),
             );
           },
