@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../screens/list_screen.dart';
-import '../models/trail_model.dart';
-import '../screens/home_screen.dart';
-
 class MapScreen extends StatefulWidget {
   final double latitude;
   final double longitude;
-  MapScreen(this.latitude, this.longitude);
+  final double userLat;
+  final double userLon;
+  MapScreen(this.latitude, this.longitude, this.userLat, this.userLon);
   @override
-  _MapScreenState createState() => _MapScreenState(latitude, longitude);
+  _MapScreenState createState() => _MapScreenState(latitude, longitude, userLat, userLon);
 }
 
 class _MapScreenState extends State<MapScreen> {
@@ -19,7 +17,9 @@ class _MapScreenState extends State<MapScreen> {
  MapType _currentMapType = MapType.normal;
  final double latitude;
  final double longitude;
- _MapScreenState(this.latitude, this.longitude);
+ final double userLat;
+ final double userLon;
+ _MapScreenState(this.latitude, this.longitude, this.userLat, this.userLon);
  //final LatLng _center = const LatLng(45.521563, -122.677433);
 
  /// FUNCTIONS
@@ -46,17 +46,28 @@ class _MapScreenState extends State<MapScreen> {
  }
 
  /// adds marker to current center of map
- void _onAddMarkerButtonPressed() {
+ _onAddMarkerButtonPressed() {
    mapController.addMarker(
      MarkerOptions(
        position: LatLng(
-         mapController.cameraPosition.target.latitude,
-         mapController.cameraPosition.target.longitude,
+         userLat,
+         userLon,
        ),
-       infoWindowText: InfoWindowText('Random Place', '5 Star Rating'),
+       infoWindowText: InfoWindowText('User\'s Location', '5 Star Rating'),
        icon: BitmapDescriptor.defaultMarker,
      ),
    );
+   mapController.addMarker(
+     MarkerOptions(
+       position: LatLng(
+         latitude,
+         longitude,
+       ),
+       infoWindowText: InfoWindowText('Trail Location', '5 Star Rating'),
+       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueMagenta),
+     ),
+   );
+
  }
 
  /// BODY VIEW
@@ -77,7 +88,8 @@ class _MapScreenState extends State<MapScreen> {
                myLocationEnabled: true,
                trackCameraPosition: true,
                cameraPosition: CameraPosition(
-                 target: LatLng(latitude, longitude),
+                 target: LatLng((userLat+latitude)/2, (userLon + longitude)/2),
+                 //target: LatLng(latitude, longitude),
                  zoom: 12.0,
                ),
              ),
@@ -85,7 +97,7 @@ class _MapScreenState extends State<MapScreen> {
            Padding(
              padding: const EdgeInsets.all(16.0),
              child: Align(
-               alignment: Alignment.topRight,
+               alignment: Alignment.topLeft,
                child: Column(
                  children: <Widget>[
                    FloatingActionButton( /// map view type normal or satellite
