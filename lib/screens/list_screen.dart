@@ -4,7 +4,9 @@ import 'dart:convert';
 import '../screens/map_screen.dart';
 class ListScreen extends StatelessWidget {
   final List<TrailModel> trails;
-  ListScreen(this.trails);
+  final userLat;
+  final userLon;
+  ListScreen(this.trails, this.userLat, this.userLon);
 
   @override
   Widget build(BuildContext ctxt) {
@@ -12,7 +14,7 @@ class ListScreen extends StatelessWidget {
       appBar: new AppBar(
         title: new Text("Here are your trails"),
       ),
-      body: TrailList(trails),
+      body: TrailList(trails, userLat, userLon),
     );
   }
 }
@@ -20,8 +22,10 @@ class ListScreen extends StatelessWidget {
 
 class TrailList extends StatelessWidget {
   final List<TrailModel> trails;
+  final double userLat;
+  final double userLon;
 
-  TrailList(this.trails);
+  TrailList(this.trails, this.userLat, this.userLon);
 
   Widget build(context) {
     return ListView.builder(
@@ -43,7 +47,7 @@ class TrailList extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => new MapScreen(myText2[index]['latitude'], myText2[index]['longitude']),
+                builder: (context) => new MapScreen(myText2[index]['latitude'], myText2[index]['longitude'], userLat, userLon),
               ),
             );
           },
