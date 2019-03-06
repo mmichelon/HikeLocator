@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MapScreen extends StatefulWidget {
   final double latitude;
@@ -67,7 +68,15 @@ class _MapScreenState extends State<MapScreen> {
        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueMagenta),
      ),
    );
+ }
 
+ _launchURL() async {
+   String url = 'google.navigation:q=$latitude,$longitude';
+   if (await canLaunch(url)) {
+     await launch(url);
+   } else {
+     throw 'Could not launch $url';
+   }
  }
 
  /// BODY VIEW
@@ -114,6 +123,13 @@ class _MapScreenState extends State<MapScreen> {
                      backgroundColor: Colors.green,
                      heroTag: null,
                      child: const Icon(Icons.add_location, size: 36.0),
+                   ),
+                   FloatingActionButton(
+                     onPressed: _launchURL,
+                     materialTapTargetSize: MaterialTapTargetSize.padded,
+                     backgroundColor: Colors.green,
+                     heroTag: null,
+                     child: const Icon(Icons.directions_car, size: 36.0),
                    ),
                  ],
                ),
