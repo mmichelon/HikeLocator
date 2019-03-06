@@ -19,8 +19,7 @@ class ListScreen extends StatelessWidget {
   }
 }
 
-
-class TrailList extends StatelessWidget {
+class TrailList extends StatelessWidget{
   final List<TrailModel> trails;
   final double userLat;
   final double userLon;
@@ -33,25 +32,30 @@ class TrailList extends StatelessWidget {
       itemBuilder: (context, int index) {
         Object myText = json.encode(trails[index].trails);
         List<dynamic> myText2 = json.decode(myText);
-        return ListTile(
-          contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-          leading: Container(
-            decoration: BoxDecoration(
-              border: Border.all(color:Colors.black),
-            ),
-            padding: EdgeInsets.all(20.0),
-            margin: EdgeInsets.all(10.0),
-            child: Text(myText2[index]['name']),
-          ),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => new MapScreen(myText2[index]['latitude'], myText2[index]['longitude'], userLat, userLon),
+        if(myText2.length > index) {
+          return ListTile(
+            contentPadding: EdgeInsets.symmetric(
+                horizontal: 20.0, vertical: 10.0),
+            leading: Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black),
               ),
-            );
-          },
-        );
+              padding: EdgeInsets.all(20.0),
+              margin: EdgeInsets.all(10.0),
+              child: Text(myText2[index]['name']),
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => new MapScreen(
+                      myText2[index]['latitude'], myText2[index]['longitude'],
+                      userLat, userLon),
+                ),
+              );
+            },
+          );
+        }
       },
     );
   }
