@@ -1,45 +1,114 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'home_screen.dart';
+import 'dart:async';
 final FirebaseDatabase database = FirebaseDatabase.instance;
+final FirebaseAuth _auth = FirebaseAuth.instance;
 class SignUpScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return SignUpScreen1();
+    return SignUpScreenState();
   }
 }
 
-class SignUpScreen1 extends State<SignUpScreen> {
-  int counter = 0;
+class SignUpScreenState extends State<SignUpScreen> {
   final formkey = GlobalKey<FormState>();
-  String email = '';
-  String password = '';
+  String _email = '';
+  String _password = '';
+  checkFields(){
+    final form=formkey.currentState;
+    if(form.validate()){
+      form.save();
+      return true;
+    }
+    return false;
+  }
+  Future createUser()async {
+    if (formkey.currentState.validate()) {
+      formkey.currentState.save();
+      FirebaseUser user = await _auth.createUserWithEmailAndPassword(email: _email, password: _password)
+      .then((userNew) {
+        print("User created ${userNew.displayName}");
+        print("Email: ${userNew.email}");
+      });
+      print(user.email);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-          appBar: AppBar(title: Text("HikeLocator")),
-          body:
-          Container(
-              margin: EdgeInsets.all(20.0),
-              child: Form(
-                key: formkey,
-                child: Column(
-                  children: <Widget>[
-                    emailField(),
-                    passwordField(),
-                    Container(
-                      margin: EdgeInsets.only(top: 25.0),
-                    ),
-                    submitButton(),
-                  ],
-                ),
-              )
-          )
+    // TODO: implement build
+    return new Scaffold(
+
+      appBar: AppBar(
+        //title: Image(image:AssetImage("images/flutter1.png",),
+          title: Text("HikeLocator"),
+          //height: 30.0,
+          //fit: BoxFit.fitHeight,),
+        elevation: 0.0,
+
+        centerTitle: true,
+        backgroundColor: Colors.black12,
+
       ),
+      body:ListView(
+        shrinkWrap: true,
+        children: <Widget>[
+          Container(
+            height: 210.0,
+            decoration: BoxDecoration(
+                //image: DecorationImage(
+                  //  image: AssetImage('images/google2.gif'),
+                    //fit: BoxFit.contain),
+                borderRadius: BorderRadius.only
+                  (
+                    bottomLeft: Radius.circular(500.0),
+                    bottomRight: Radius.circular(500.0)
+                )),
+          ),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(28.0),
+              child: Center(
+                  child: new Form(
+                    key: formkey,
+                    child: Center(
+                      child: new ListView(
+                        shrinkWrap: true,
+                        children: <Widget>[
+                          emailField(),
+                          SizedBox(width: 20.0,height: 20.0,),
+                          passwordField(),
+                          Center(
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 138.0,top: 8.0),
+                              child: Row(
+                                children: <Widget>[
+                                  OutlineButton(
+                                    child: Text("Register"),
+                                    onPressed: createUser,
+                                  ),
+                                  SizedBox(height: 18.0,width: 18.0,),
+
+
+                                ],
+                              ),
+                            ),
+                          ),
+
+                        ],
+                      ),
+                    ),
+                  )
+              ),
+            ),
+          ),
+        ],
+      ) ,
     );
   }
+
   Widget emailField(){
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
@@ -54,7 +123,7 @@ class SignUpScreen1 extends State<SignUpScreen> {
         }
       },
       onSaved:(String value){
-        email = value;
+        _email = value;
       },
     );
   }
@@ -72,32 +141,8 @@ class SignUpScreen1 extends State<SignUpScreen> {
         }
       },
       onSaved:(String value){
-        password = value;
+        _password = value;
       },
     );
-  }
-  Widget submitButton(){
-    return RaisedButton(
-      color: Colors.blue,
-      child: Text("Sign Up"),
-      onPressed: () {
-        if(formkey.currentState.validate()){
-          formkey.currentState.save();
-        }
-      },
-    );
-  }
-  void insertToDataBase() {
-
-    database.reference().child("counter").set({
-      "counter": counter
-    });
-    counter++;
-    database.reference().child("counter").once().then((DataSnapshot snapshot){
-      Map<dynamic, dynamic> data = snapshot.value;
-
-      print("Values from db:  ${data.values}");
-    });
-
   }
 }
