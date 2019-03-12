@@ -4,13 +4,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'home_screen.dart';
 import 'signup_screen.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 final FirebaseDatabase database = FirebaseDatabase.instance;
 final FirebaseAuth _auth = FirebaseAuth.instance;
-
+FirebaseUser mCurrentUser;
 class LogInScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -37,7 +38,9 @@ class LogInScreenState extends State<LogInScreen> {
 
         centerTitle: true,
         backgroundColor: Colors.transparent,
+
       ),
+
       body: ListView(
         shrinkWrap: true,
         children: <Widget>[
@@ -202,7 +205,6 @@ class LogInScreenState extends State<LogInScreen> {
   }
 
   loginUser() {
-
         if (formkey.currentState.validate()) {
           formkey.currentState.save();
           _auth
@@ -211,11 +213,40 @@ class LogInScreenState extends State<LogInScreen> {
             print("Something went wrong: ${e.toString()}");
           }) .then((newUser) {
             print("signed in as ${newUser.email}");
+            
+            getSignedInUser(newUser.uid);
           });
+
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => MyApp()),
           );
         }
+
   }
+
+
+
+  getSignedInUser(String uid) async {
+    mCurrentUser = await _auth.currentUser();
+
+
+    DocumentSnapshot result = await Firestore.instance.collection('users').document(uid).collection('profile').document('profile').get();
+    String myResult = result['First Name'];
+
+
+    Fluttertoast.showToast(
+        msg: "Welcome ${mCurrentUser.email.toString()}. Your data is ${myResult}",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIos: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
+  }
+
+
+
 }
+
