@@ -11,9 +11,6 @@ class ListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext ctxt) {
     return new Scaffold(
-      appBar: new AppBar(
-        title: new Text("Here are your trails"),
-      ),
       body: TrailList(trails, userLat, userLon),
     );
   }
@@ -28,8 +25,8 @@ class TrailList extends StatelessWidget{
 
   Widget build(context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Title")),
-    body: Center(child: Text('My Page!')),
+        appBar: new AppBar(title: Text("Title")),
+    body: Center(child: Text('Maps Page!')),
     drawer: Drawer(
     // Add a ListView to the drawer. This ensures the user can scroll
     // through the options in the Drawer if there isn't enough vertical
