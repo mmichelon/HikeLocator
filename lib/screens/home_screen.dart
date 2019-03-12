@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/trail_model.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
-import '../screens/list_screen.dart';
+import '../screens/map_screen.dart';
 import 'package:geolocator/geolocator.dart';
 import 'login_screen.dart';
 
