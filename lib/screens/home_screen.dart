@@ -1,29 +1,38 @@
-import 'package:flutter/material.dart';
-import '../models/trail_model.dart';
-import 'package:http/http.dart';
 import 'dart:convert';
-import '../screens/map_screen.dart';
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:http/http.dart';
+import '../screens/map_screen.dart';
+import '../models/trail_model.dart';
 import 'login_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+LogInScreenState loginScreen = new LogInScreenState();
 
 class MyApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return HomeScreen();
   }
+
 }
 
+
 class HomeScreen extends State<MyApp> {
+  final snackBar = SnackBar(content: Text('Yay! A SnackBar!'));
   double userLat;
   double userLon;
   double distance = 10;
   double length = 0;
   double results = 10;
+
   final formkey = GlobalKey<FormState>();
   List<TrailModel> trails = [];
 
   Future<List<TrailModel>> fetchData() async {
-    Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    Position position = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     userLat = position.latitude;
     userLon = position.longitude;
 
@@ -32,7 +41,7 @@ class HomeScreen extends State<MyApp> {
     var trailModel = TrailModel.fromJson(json.decode(response.body));
 
     trails.clear();
-    for(int i = 0; i < results; i++){
+    for (int i = 0; i < results; i++) {
       trails.add(trailModel);
     }
 
@@ -42,9 +51,17 @@ class HomeScreen extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: Scaffold(
-            resizeToAvoidBottomPadding: false,
-            appBar: AppBar(title: Text("HikeLocator")),
+
+
+      title: 'HikeLocator',
+
+      debugShowCheckedModeBanner: false,
+      routes: {
+        '/login': (context) => LogInScreen(),
+      },
+      home: Scaffold(
+          resizeToAvoidBottomPadding: false,
+          appBar: AppBar(title: Text("HikeLocator")),
           body:
           Container(
               margin: EdgeInsets.all(20.0),
@@ -60,53 +77,48 @@ class HomeScreen extends State<MyApp> {
                     ),
                     submitButton(),
                     loginButton(),
+
                   ],
                 ),
               )
-          )
-        ),
+          )),
     );
   }
-  Widget distanceFromUser(){
+
+  Widget distanceFromUser() {
     return TextFormField(
       decoration: InputDecoration(
-          labelText: "Distance From User",
-          hintText: 'x.x miles'
-
-      ),
-      onSaved:(String value){
+          labelText: "Distance From User", hintText: 'x.x miles'),
+      onSaved: (String value) {
         distance = double.parse(value);
       },
     );
   }
-  Widget lengthOfTrail(){
+
+  Widget lengthOfTrail() {
     return TextFormField(
       decoration: InputDecoration(
-          labelText: "Minimum Length of Trail",
-          hintText: 'x.x miles'
-      ),
-      onSaved:(String value){
+          labelText: "Minimum Length of Trail", hintText: 'x.x miles'),
+      onSaved: (String value) {
         length = double.parse(value);
       },
     );
   }
-  Widget numOfResults(){
+
+  Widget numOfResults() {
     return TextFormField(
       decoration: InputDecoration(
-          labelText: "Number of results",
-          hintText: 'Top x results'
-
-      ),
-      onSaved:(String value){
+          labelText: "Number of results", hintText: 'Top x results'),
+      onSaved: (String value) {
         results = double.parse(value);
       },
     );
-
   }
-  Widget submitButton(){
+
+  Widget submitButton() {
     return RaisedButton(
       child: Text("Find trails near me"),
-      onPressed: () async{
+      onPressed: () async {
         formkey.currentState.save();
           final trails = await fetchData();
           Navigator.push(
@@ -114,11 +126,11 @@ class HomeScreen extends State<MyApp> {
             MaterialPageRoute(
                 builder: (context) => MapScreen(trails, userLat, userLon)),
           );
-
       },
     );
   }
-  Widget loginButton(){
+
+  Widget loginButton() {
     return RaisedButton(
       child: Text("Log In"),
       onPressed: () {
@@ -126,7 +138,6 @@ class HomeScreen extends State<MyApp> {
           context,
           MaterialPageRoute(builder: (context) => LogInScreen()),
         );
-
       },
     );
   }

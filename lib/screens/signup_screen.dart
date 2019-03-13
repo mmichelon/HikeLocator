@@ -1,103 +1,197 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 final FirebaseDatabase database = FirebaseDatabase.instance;
+final FirebaseAuth _auth = FirebaseAuth.instance;
+
 class SignUpScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return SignUpScreen1();
+    return SignUpScreenState();
   }
 }
 
-class SignUpScreen1 extends State<SignUpScreen> {
-  int counter = 0;
+class SignUpScreenState extends State<SignUpScreen> {
   final formkey = GlobalKey<FormState>();
-  String email = '';
-  String password = '';
+  String _email = '';
+  String _password = '';
+  String _firstname = '';
+  String _lastname = '';
+  Future createUser() async {
+    if (formkey.currentState.validate()) {
+      formkey.currentState.save();
+      FirebaseUser user = await _auth
+          .createUserWithEmailAndPassword(email: _email, password: _password)
+          .then((newUser) {
+        print("Email: ${newUser.email}");
+        addToDatabase(newUser.uid, "Mike", "Plemmons", newUser.email);
+      });
+      print(user.email);
+    }
+
+  }
+  addToDatabase(String uid, fname, lname, email) async{
+
+    Firestore.instance
+        .collection('users')
+        .document(uid)
+        .collection('profile')
+        .document('profile')
+        .setData({
+      'First Name': fname,
+      'Last Name': lname,
+      'Email': email
+    })
+        .then((onValue) {
+      print('Created it in sub collection');
+    }).catchError((e) {
+      print('======Error======== ' + e);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-          appBar: AppBar(title: Text("HikeLocator")),
-          body:
+    // TODO: implement build
+    return new Scaffold(
+      appBar: AppBar(
+        //title: Image(image:AssetImage("images/flutter1.png",),
+        title: Text("HikeLocator"),
+        //height: 30.0,
+        //fit: BoxFit.fitHeight,),
+        elevation: 0.0,
+
+        centerTitle: true,
+        backgroundColor: Colors.black12,
+      ),
+      body: ListView(
+        shrinkWrap: true,
+        children: <Widget>[
           Container(
-              margin: EdgeInsets.all(20.0),
-              child: Form(
+            height: 210.0,
+            decoration: BoxDecoration(
+                //image: DecorationImage(
+                //  image: AssetImage('images/google2.gif'),
+                //fit: BoxFit.contain),
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(500.0),
+                    bottomRight: Radius.circular(500.0))),
+          ),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(28.0),
+              child: Center(
+                  child: new Form(
                 key: formkey,
-                child: Column(
-                  children: <Widget>[
-                    emailField(),
-                    passwordField(),
-                    Container(
-                      margin: EdgeInsets.only(top: 25.0),
-                    ),
-                    submitButton(),
-                  ],
+                child: Center(
+                  child: new ListView(
+                    shrinkWrap: true,
+                    children: <Widget>[
+                      firstNameField(),
+                      SizedBox(
+                        width: 20.0,
+                        height: 20.0,
+                      ),
+                      lastNameField(),
+                      SizedBox(
+                        width: 20.0,
+                        height: 20.0,
+                      ),
+                      emailField(),
+                      SizedBox(
+                        width: 20.0,
+                        height: 20.0,
+                      ),
+                      passwordField(),
+                      Center(
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 138.0, top: 8.0),
+                          child: Row(
+                            children: <Widget>[
+                              OutlineButton(
+                                child: Text("Register"),
+                                onPressed: createUser,
+                              ),
+                              SizedBox(
+                                height: 18.0,
+                                width: 18.0,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              )
-          )
+              )),
+            ),
+          ),
+        ],
       ),
     );
   }
-  Widget emailField(){
+
+  Widget emailField() {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
-          labelText: "Email Address",
-          hintText: 'me@example.com'
-
-      ),
-      validator: (String value){
-        if(!value.contains('@')){
+          labelText: "Email Address", hintText: 'me@example.com'),
+      validator: (String value) {
+        if (!value.contains('@')) {
           return 'Please enter a valid email';
         }
       },
-      onSaved:(String value){
-        email = value;
+      onSaved: (String value) {
+        _email = value;
       },
     );
   }
 
-  Widget passwordField(){
+  Widget passwordField() {
     return TextFormField(
       obscureText: true,
-      decoration: InputDecoration(
-          labelText: "Password",
-          hintText: 'Password'
-      ),
-      validator: (String value){
-        if(value.length < 4){
+      decoration: InputDecoration(labelText: "Password", hintText: 'Password'),
+      validator: (String value) {
+        if (value.length < 6) {
           return "Password must be at least 4 characters";
         }
       },
-      onSaved:(String value){
-        password = value;
+      onSaved: (String value) {
+        _password = value;
       },
     );
   }
-  Widget submitButton(){
-    return RaisedButton(
-      color: Colors.blue,
-      child: Text("Sign Up"),
-      onPressed: () {
-        if(formkey.currentState.validate()){
-          formkey.currentState.save();
+  Widget firstNameField() {
+    return TextFormField(
+
+      decoration: InputDecoration(
+          labelText: "First Name"),
+      validator: (String value) {
+        if (value.isEmpty) {
+          return 'Input cannot be blank';
         }
       },
+      onSaved: (String value) {
+        _firstname = value;
+      },
     );
   }
-  void insertToDataBase() {
+  Widget lastNameField() {
+    return TextFormField(
 
-    database.reference().child("counter").set({
-      "counter": counter
-    });
-    counter++;
-    database.reference().child("counter").once().then((DataSnapshot snapshot){
-      Map<dynamic, dynamic> data = snapshot.value;
-
-      print("Values from db:  ${data.values}");
-    });
-
+      decoration: InputDecoration(
+          labelText: "Last Name"),
+      validator: (String value) {
+        if (value.isEmpty) {
+          return 'Input cannot be blank';
+        }
+      },
+      onSaved: (String value) {
+        _lastname = value;
+      },
+    );
   }
 }
