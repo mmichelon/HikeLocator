@@ -4,9 +4,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'login_screen.dart';
 final FirebaseDatabase database = FirebaseDatabase.instance;
 final FirebaseAuth _auth = FirebaseAuth.instance;
+LogInScreenState _logInScreen;
+
+
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -15,7 +18,8 @@ class SignUpScreen extends StatefulWidget {
   }
 }
 
-class SignUpScreenState extends State<SignUpScreen> {
+class  SignUpScreenState extends State<SignUpScreen> {
+
   final formkey = GlobalKey<FormState>();
   String _email = '';
   String _password = '';
@@ -28,12 +32,13 @@ class SignUpScreenState extends State<SignUpScreen> {
           .createUserWithEmailAndPassword(email: _email, password: _password)
           .then((newUser) {
         print("Email: ${newUser.email}");
-        addToDatabase(newUser.uid, "Mike", "Plemmons", newUser.email);
+        addToDatabase(newUser.uid, _firstname, _lastname, newUser.email);
       });
-      print(user.email);
     }
 
+
   }
+
   addToDatabase(String uid, fname, lname, email) async{
 
     Firestore.instance
@@ -113,7 +118,12 @@ class SignUpScreenState extends State<SignUpScreen> {
                             children: <Widget>[
                               OutlineButton(
                                 child: Text("Register"),
-                                onPressed: createUser,
+                                onPressed: () { createUser();
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => LogInScreen()),
+                                  );
+                                }
                               ),
                               SizedBox(
                                 height: 18.0,

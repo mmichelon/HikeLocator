@@ -9,8 +9,11 @@ import 'home_screen.dart';
 import 'signup_screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+SignUpScreenState signupscreen;
+
 final FirebaseDatabase database = FirebaseDatabase.instance;
 final FirebaseAuth _auth = FirebaseAuth.instance;
+
 FirebaseUser mCurrentUser;
 class LogInScreen extends StatefulWidget {
   @override
@@ -84,7 +87,7 @@ class LogInScreenState extends State<LogInScreen> {
                                     Expanded(
                                       child: OutlineButton(
                                           child: Text("Login "),
-                                          onPressed: ()=>loginUser()),
+                                          onPressed: ()=>loginUser(_email, _password)),
                                       flex: 1,
                                     ),
                                     SizedBox(
@@ -204,16 +207,29 @@ class LogInScreenState extends State<LogInScreen> {
     );
   }
 
-  loginUser() {
-        if (formkey.currentState.validate()) {
-          formkey.currentState.save();
-          _auth
+  Future loginUser(_email, _password) async {
+    if (formkey.currentState.validate()) {
+      formkey.currentState.save();
+        await _auth
               .signInWithEmailAndPassword(email: _email, password: _password)
              .catchError((e) {
             print("Something went wrong: ${e.toString()}");
           }) .then((newUser) {
             print("signed in as ${newUser.email}");
-
+            var now = new DateTime.now();
+            Firestore.instance
+                .collection('users')
+                .document(newUser.uid)
+                .collection('userInfo')
+                .document('userInfo')
+                .setData({
+              'Last login': now,
+            })
+                .then((onValue) {
+              print('Created it in sub collection');
+            }).catchError((e) {
+              print('======Error======== ' + e);
+            });
             getSignedInUser(newUser.uid);
           });
 
