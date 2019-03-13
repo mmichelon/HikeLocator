@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart';
+import '../screens/map_screen.dart';
 import '../models/trail_model.dart';
-import '../screens/list_screen.dart';
 import 'login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -120,12 +120,12 @@ class HomeScreen extends State<MyApp> {
       child: Text("Find trails near me"),
       onPressed: () async {
         formkey.currentState.save();
-        final trails = await fetchData();
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => ListScreen(trails, userLat, userLon)),
-        );
+          final trails = await fetchData();
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => MapScreen(trails, userLat, userLon)),
+          );
       },
     );
   }
