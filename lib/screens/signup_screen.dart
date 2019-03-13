@@ -19,16 +19,8 @@ class SignUpScreenState extends State<SignUpScreen> {
   final formkey = GlobalKey<FormState>();
   String _email = '';
   String _password = '';
-/*
-  checkFields() {
-    final form = formkey.currentState;
-    if (form.validate()) {
-      form.save();
-      return true;
-    }
-    return false;
-  }
-*/
+  String _firstname = '';
+  String _lastname = '';
   Future createUser() async {
     if (formkey.currentState.validate()) {
       formkey.currentState.save();
@@ -98,6 +90,16 @@ class SignUpScreenState extends State<SignUpScreen> {
                   child: new ListView(
                     shrinkWrap: true,
                     children: <Widget>[
+                      firstNameField(),
+                      SizedBox(
+                        width: 20.0,
+                        height: 20.0,
+                      ),
+                      lastNameField(),
+                      SizedBox(
+                        width: 20.0,
+                        height: 20.0,
+                      ),
                       emailField(),
                       SizedBox(
                         width: 20.0,
@@ -159,6 +161,36 @@ class SignUpScreenState extends State<SignUpScreen> {
       },
       onSaved: (String value) {
         _password = value;
+      },
+    );
+  }
+  Widget firstNameField() {
+    return TextFormField(
+
+      decoration: InputDecoration(
+          labelText: "First Name"),
+      validator: (String value) {
+        if (value.isEmpty) {
+          return 'Input cannot be blank';
+        }
+      },
+      onSaved: (String value) {
+        _firstname = value;
+      },
+    );
+  }
+  Widget lastNameField() {
+    return TextFormField(
+
+      decoration: InputDecoration(
+          labelText: "Last Name"),
+      validator: (String value) {
+        if (value.isEmpty) {
+          return 'Input cannot be blank';
+        }
+      },
+      onSaved: (String value) {
+        _lastname = value;
       },
     );
   }
