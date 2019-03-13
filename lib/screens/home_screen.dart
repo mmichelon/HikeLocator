@@ -50,14 +50,6 @@ class HomeScreen extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-
-
-      title: 'HikeLocator',
-
-      debugShowCheckedModeBanner: false,
-      routes: {
-        '/login': (context) => LogInScreen(),
-      },
       home: Scaffold(
           resizeToAvoidBottomPadding: false,
           appBar: AppBar(title: Text("HikeLocator")),
