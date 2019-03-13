@@ -213,7 +213,7 @@ class LogInScreenState extends State<LogInScreen> {
             print("Something went wrong: ${e.toString()}");
           }) .then((newUser) {
             print("signed in as ${newUser.email}");
-            
+
             getSignedInUser(newUser.uid);
           });
 
@@ -236,9 +236,9 @@ class LogInScreenState extends State<LogInScreen> {
 
 
     Fluttertoast.showToast(
-        msg: "Welcome ${mCurrentUser.email.toString()}. Your data is ${myResult}",
+        msg: "Welcome $myResult!",
         toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
+        gravity: ToastGravity.TOP,
         timeInSecForIos: 1,
         backgroundColor: Colors.red,
         textColor: Colors.white,
