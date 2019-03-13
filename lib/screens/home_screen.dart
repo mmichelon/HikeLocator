@@ -112,7 +112,7 @@ class HomeScreen extends State<MyApp> {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => ListScreen(trails, userLat, userLon)),
+                builder: (context) => MapScreen(trails, userLat, userLon)),
           );
 
       },
