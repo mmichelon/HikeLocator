@@ -35,10 +35,16 @@ class _MapScreenState extends State<MapScreen> {
 
   /// FUNCTIONS
 
+
   /// creates controller and attempts to center map on phone location
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
-//   _onAddMarkerButtonPressed();
+
+    // add markers on list to view when map openss
+    int trailLength = newTrails[0].length;
+    for(int i = 0; i < trailLength; i++){
+      _onAddMarkerButtonPressed(newTrails[0][i]);
+    }
   }
 
   /// swaps type of map view between normal and satellite
@@ -128,8 +134,6 @@ class _MapScreenState extends State<MapScreen> {
               child: ListView.builder(
                 itemCount: newTrails.length,
                 itemBuilder: (context, int index) {
-//                 Object myText = json.encode(trails[index].trails);
-//                 List<dynamic> myText2 = json.decode(myText);
                   if(newTrails.length > index) {
                     return ListTile(
                       contentPadding: EdgeInsets.symmetric(
@@ -141,9 +145,8 @@ class _MapScreenState extends State<MapScreen> {
                         padding: EdgeInsets.all(20.0),
                         margin: EdgeInsets.all(10.0),
                         child: Text(newTrails[0][index]['name']), // Will need to change for
-
                       ),
-                      onTap: _onAddMarkerButtonPressed(newTrails[0][index]),
+//                      onTap: _onAddMarkerButtonPressed(newTrails[0][index]),
                     );
                   }
                 },
