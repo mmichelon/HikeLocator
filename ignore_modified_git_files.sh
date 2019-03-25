@@ -1,6 +1,8 @@
 #!/bin/bash
 # This script is used to remove the files that are either removed or modified
 # to un the script ./ignore_modified_git_files.sh
+# Should remve all untracked files
+git status -s | grep -e "^\?\?" | grep -v ".gitignore" | cut -c 4- >> .gitignore
 # Should automatically exclude these files leaving under 10 files(unable to get these to ignore these files)
 git update-index --assume-unchanged .flutter-plugins
 git update-index --assume-unchanged .gitignore
