@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../models/trail_model.dart';
 import 'dart:convert';
+import '../screens/info_screen.dart';
 
 class MapScreen extends StatefulWidget {
 //  final List<TrailModel> trails;
@@ -40,7 +41,7 @@ class _MapScreenState extends State<MapScreen> {
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
 
-    // add markers on list to view when map openss
+    // add markers on list to view when map opens
     int trailLength = newTrails[0].length;
     for(int i = 0; i < trailLength; i++){
       _onAddMarkerButtonPressed(newTrails[0][i]);
@@ -146,6 +147,12 @@ class _MapScreenState extends State<MapScreen> {
                         margin: EdgeInsets.all(10.0),
                         child: Text(newTrails[0][index]['name']), // Will need to change for
                       ),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => InfoScreen(newTrails[0][index])),
+                          );
+                        },
 //                      onTap: _onAddMarkerButtonPressed(newTrails[0][index]),
                     );
                   }

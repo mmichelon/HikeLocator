@@ -43,7 +43,6 @@ class HomeScreen extends State<MyApp> {
     trails.clear();
     finalTrails.clear();
     for (int i = 0; i < results; i++) {
-      trails.add(trailModel);
       Object myText = json.encode(trailModel.trails);
       finalTrails.add(json.decode(myText));
     }
