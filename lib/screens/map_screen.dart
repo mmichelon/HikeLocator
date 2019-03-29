@@ -150,7 +150,7 @@ class _MapScreenState extends State<MapScreen> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => InfoScreen(newTrails[0][index])),
+                            MaterialPageRoute(builder: (context) => InfoScreen(newTrails, index)),
                           );
                         },
 //                      onTap: _onAddMarkerButtonPressed(newTrails[0][index]),
