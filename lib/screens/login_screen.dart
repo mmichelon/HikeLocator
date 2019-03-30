@@ -164,7 +164,6 @@ class LogInScreenState extends State<LogInScreen> {
             textColor: Colors.white,
             fontSize: 16.0
         );
-        formkey.currentState.reset();
       }).then((newUser) {
         var now = new DateTime.now();
         Firestore.instance
