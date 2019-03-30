@@ -4,12 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'login_screen.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 final FirebaseDatabase database = FirebaseDatabase.instance;
 final FirebaseAuth _auth = FirebaseAuth.instance;
-LogInScreenState _logInScreen;
-
-
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -19,28 +16,37 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class  SignUpScreenState extends State<SignUpScreen> {
-
   final formkey = GlobalKey<FormState>();
   String _email = '';
   String _password = '';
   String _firstname = '';
   String _lastname = '';
+  String _confirm = "";
   Future createUser() async {
+    formkey.currentState.save();
     if (formkey.currentState.validate()) {
-      formkey.currentState.save();
-      FirebaseUser user = await _auth
-          .createUserWithEmailAndPassword(email: _email, password: _password)
-          .then((newUser) {
-        print("Email: ${newUser.email}");
-        addToDatabase(newUser.uid, _firstname, _lastname, newUser.email);
-      });
+        await _auth
+            .createUserWithEmailAndPassword(email: _email, password: _password)
+            .then((newUser) {
+          print("Email: ${newUser.email}");
+          Navigator.of(context).pop();
+          addToDatabase(newUser.uid, _firstname, _lastname, newUser.email);
+        }).catchError((e) {
+          formkey.currentState.reset();
+          Fluttertoast.showToast(
+              msg: "Email address already exists",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.TOP,
+              timeInSecForIos: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+        });
     }
-
-
   }
 
   addToDatabase(String uid, fname, lname, email) async{
-
     Firestore.instance
         .collection('users')
         .document(uid)
@@ -78,9 +84,6 @@ class  SignUpScreenState extends State<SignUpScreen> {
           Container(
             height: 210.0,
             decoration: BoxDecoration(
-                //image: DecorationImage(
-                //  image: AssetImage('images/google2.gif'),
-                //fit: BoxFit.contain),
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(500.0),
                     bottomRight: Radius.circular(500.0))),
@@ -111,6 +114,11 @@ class  SignUpScreenState extends State<SignUpScreen> {
                         height: 20.0,
                       ),
                       passwordField(),
+                      SizedBox(
+                        width: 20.0,
+                        height: 20.0,
+                      ),
+                      confirmField(),
                       Center(
                         child: Padding(
                           padding: EdgeInsets.only(left: 138.0, top: 8.0),
@@ -119,10 +127,6 @@ class  SignUpScreenState extends State<SignUpScreen> {
                               OutlineButton(
                                 child: Text("Register"),
                                 onPressed: () { createUser();
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => LogInScreen()),
-                                  );
                                 }
                               ),
                               SizedBox(
@@ -150,7 +154,9 @@ class  SignUpScreenState extends State<SignUpScreen> {
       decoration: InputDecoration(
           labelText: "Email Address", hintText: 'me@example.com'),
       validator: (String value) {
-        if (!value.contains('@')) {
+        RegExp exp = new RegExp(r"\w+@\w+\.\w+");
+        if (!exp.hasMatch(value)) {
+          formkey.currentState.reset();
           return 'Please enter a valid email';
         }
       },
@@ -163,10 +169,10 @@ class  SignUpScreenState extends State<SignUpScreen> {
   Widget passwordField() {
     return TextFormField(
       obscureText: true,
-      decoration: InputDecoration(labelText: "Password", hintText: 'Password'),
+      decoration: InputDecoration(labelText: "Password"),
       validator: (String value) {
         if (value.length < 6) {
-          return "Password must be at least 4 characters";
+          return "Password must be at least 6 characters";
         }
       },
       onSaved: (String value) {
@@ -174,6 +180,26 @@ class  SignUpScreenState extends State<SignUpScreen> {
       },
     );
   }
+
+  Widget confirmField() {
+    return TextFormField(
+      obscureText: true,
+      decoration: InputDecoration(labelText: "Confirm Password"),
+      validator: (String value) {
+        if (value.length < 6 ) {
+          return "Password must be at least 6 characters";
+        }
+
+        if (_password != _confirm){
+          return "Passwords do not match.";
+        }
+      },
+      onSaved: (String value) {
+        _confirm = value;
+      },
+    );
+  }
+
   Widget firstNameField() {
     return TextFormField(
 
