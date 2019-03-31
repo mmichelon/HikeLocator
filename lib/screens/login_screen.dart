@@ -157,30 +157,21 @@ class LogInScreenState extends State<LogInScreen> {
           .catchError((e) {
         Fluttertoast.showToast(
             msg: e.message,
-            toastLength: Toast.LENGTH_SHORT,
+            toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.TOP,
             timeInSecForIos: 5,
             backgroundColor: Colors.red,
             textColor: Colors.white,
             fontSize: 16.0
         );
-      }).then((newUser) {
-        var now = new DateTime.now();
-        Firestore.instance
-            .collection('users')
-            .document(newUser.uid)
-            .collection('userInfo')
-            .document('userInfo')
-            .setData({
-          'Last login': now,
-        })
+      })
             .then((onValue) {
           print('Created it in sub collection');
         }).catchError((e) {
           print('======Error======== ' + e);
         });
-        getSignedInUser(newUser.uid);
-      });
+        getSignedInUser();
+      }
 
       Navigator.push(
         context,
@@ -190,10 +181,19 @@ class LogInScreenState extends State<LogInScreen> {
   }
 
 
-  getSignedInUser(String uid) async {
+  getSignedInUser() async {
     mCurrentUser = await _auth.currentUser();
+    var now = new DateTime.now();
+    Firestore.instance
+        .collection('users')
+        .document(mCurrentUser.uid)
+        .collection('userInfo')
+        .document('userInfo')
+        .setData({
+      'Last login': now,
+    });
     DocumentSnapshot result = await Firestore.instance.collection('users')
-        .document(uid).collection('profile').document('profile')
+        .document(mCurrentUser.uid).collection('profile').document('profile')
         .get();
     String myResult = result['First Name'];
     Fluttertoast.showToast(
@@ -206,4 +206,4 @@ class LogInScreenState extends State<LogInScreen> {
         fontSize: 16.0
     );
   }
-}
+
