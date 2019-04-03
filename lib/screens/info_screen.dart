@@ -19,31 +19,19 @@ class InfoScreen extends StatelessWidget {
 }
 
 class InfoList extends StatelessWidget{
-//  final List<TrailModel> trails;
   final List<dynamic> newTrails;
   final int curIndex;
 
   InfoList(this.newTrails, this.curIndex);
 
   Widget build(BuildContext context) {
-    final levelIndicator = Container(
-      child: Container(
-        child: LinearProgressIndicator(
-            backgroundColor: Color.fromRGBO(209, 224, 224, 0.2),
-            value: 1,
-//            value: lesson.indicatorValue,
-            valueColor: AlwaysStoppedAnimation(Colors.green)),
-      ),
-    );
-
     final coursePrice = Container(
       padding: const EdgeInsets.all(7.0),
       decoration: new BoxDecoration(
           border: new Border.all(color: Colors.white),
           borderRadius: BorderRadius.circular(10.0)),
       child: new Text(
-          newTrails[0][curIndex]['stars'].toString() + " Star",
-//        "\$" + lesson.price.toString(),
+          newTrails[0][curIndex]['stars'].toString()+"/5" + " Star",
         style: TextStyle(color: Colors.white),
       ),
     );
@@ -51,36 +39,20 @@ class InfoList extends StatelessWidget{
     final topContentText = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-//        SizedBox(height: 120.0),
-//        Icon(
-//          Icons.directions_car,
           Image.network(newTrails[0][curIndex]['imgSmall']),
-
-//        color: Colors.white,
-//          size: 40.0,
-//        ),
-//        Container(
-//          width: 90.0,
-//          child: new Divider(color: Colors.green),
-//        ),
-//        SizedBox(height: 10.0),
         Text(
           newTrails[0][curIndex]['name'].toString(),
-//          "Lesson Title",
-//          lesson.title,
           style: TextStyle(color: Colors.white, ),
         ),
-//        SizedBox(height: 30.0),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-//            Expanded(flex: 1, child: levelIndicator),
             Expanded(
                 flex: 6,
                 child: Padding(
                     padding: EdgeInsets.only(left: 10.0),
                     child: Text(
-                      newTrails[0][curIndex]['length'].toString() + "Miles",
+                      newTrails[0][curIndex]['length'].toString() + " Miles",
 //                      lesson.level,
                       style: TextStyle(color: Colors.white),
                     ))),
@@ -156,27 +128,4 @@ class InfoList extends StatelessWidget{
       ),
     );
   }
-//  Widget build(context) {
-//    return MaterialApp(
-//    title: 'Flutter Demo',
-//    theme: ThemeData(
-//      primarySwatch: Colors.blue,
-//    ),
-//    home: Scaffold(
-//      appBar: AppBar(
-//        title: Text(newTrails[0][curIndex]['name']),
-//      ),
-//      body: Container(
-//        child: Column(
-//          children: <Widget>[
-//            Image.network(newTrails[0][curIndex]['imgSmall']),
-//            Text(newTrails[0][curIndex]['stars'].toString() + " Stars"),
-//            Text(newTrails[0][curIndex]['summary'])
-//          ],
-//        ),
-//      ) ,
-//    ),
-//
-//  );
-//  }
 }
