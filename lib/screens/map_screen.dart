@@ -81,7 +81,7 @@ class _MapScreenState extends State<MapScreen> {
           hike['latitude'],
           hike['longitude'],
         ),
-        infoWindowText: InfoWindowText(hike['name'], '5 Star Rating'),
+        infoWindowText: InfoWindowText(hike['name'], (hike['stars'].toString() + "/5 Stars")),
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueMagenta),
       ),
     );
@@ -143,9 +143,11 @@ class _MapScreenState extends State<MapScreen> {
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.black),
                         ),
-                        padding: EdgeInsets.all(20.0),
+                        padding: EdgeInsets.all(10.0),
                         margin: EdgeInsets.all(10.0),
-                        child: Text(newTrails[0][index]['name']), // Will need to change for
+                        child: Text(newTrails[0][index]['name'] +
+                          "\n" + newTrails[0][index]['length'].toString() + " Miles"
+                        ),
                       ),
                         onTap: () {
                           Navigator.push(
