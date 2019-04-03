@@ -9,8 +9,10 @@ import 'signup_screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 SignUpScreenState signupscreen;
+
 final FirebaseDatabase database = FirebaseDatabase.instance;
 final FirebaseAuth _auth = FirebaseAuth.instance;
+
 FirebaseUser mCurrentUser;
 
 class LogInScreen extends StatefulWidget {
@@ -75,6 +77,7 @@ class LogInScreenState extends State<LogInScreen> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Column(
                                   children: <Widget>[
+
                                     Row(
                                       children: <Widget>[
                                         Expanded(

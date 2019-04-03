@@ -5,8 +5,12 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
 final FirebaseDatabase database = FirebaseDatabase.instance;
 final FirebaseAuth _auth = FirebaseAuth.instance;
+LogInScreenState _logInScreen;
+
+
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -25,6 +29,7 @@ class  SignUpScreenState extends State<SignUpScreen> {
   Future createUser() async {
     formkey.currentState.save();
     if (formkey.currentState.validate()) {
+
         await _auth
             .createUserWithEmailAndPassword(email: _email, password: _password)
             .then((newUser) {

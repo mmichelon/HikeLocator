@@ -25,8 +25,9 @@ class HomeScreen extends State<MyApp> {
 
   final formkey = GlobalKey<FormState>();
   List<TrailModel> trails = [];
+  List<dynamic> finalTrails = [];
 
-  Future<List<TrailModel>> fetchData() async {
+  Future<List<dynamic>> fetchData() async {
     Position position = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     userLat = position.latitude;
@@ -37,11 +38,13 @@ class HomeScreen extends State<MyApp> {
     var trailModel = TrailModel.fromJson(json.decode(response.body));
 
     trails.clear();
+    finalTrails.clear();
     for (int i = 0; i < results; i++) {
-      trails.add(trailModel);
+      Object myText = json.encode(trailModel.trails);
+      finalTrails.add(json.decode(myText));
     }
 
-    return trails;
+    return finalTrails;
   }
 
   @override
@@ -57,9 +60,11 @@ class HomeScreen extends State<MyApp> {
                 key: formkey,
                 child: Column(
                   children: <Widget>[
+
    //                 distanceFromUser(),
      //               lengthOfTrail(),
        //             numOfResults(),
+
                     Container(
                       margin: EdgeInsets.only(top: 25.0),
                     ),
@@ -109,12 +114,12 @@ class HomeScreen extends State<MyApp> {
       child: Text("Find trails near me"),
       onPressed: () async {
         formkey.currentState.save();
-          final trails = await fetchData();
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => MapScreen(trails, userLat, userLon)),
-          );
+        final trails = await fetchData();
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => MapScreen(trails, userLat, userLon)),
+        );
       },
     );
   }
