@@ -5,9 +5,8 @@ import 'package:http/http.dart';
 import '../screens/map_screen.dart';
 import '../models/trail_model.dart';
 import 'login_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'signup_screen.dart';
+
 LogInScreenState loginScreen = new LogInScreenState();
 
 class MyApp extends StatefulWidget {
@@ -15,9 +14,7 @@ class MyApp extends StatefulWidget {
   State<StatefulWidget> createState() {
     return HomeScreen();
   }
-
 }
-
 
 class HomeScreen extends State<MyApp> {
   double userLat;
@@ -63,14 +60,17 @@ class HomeScreen extends State<MyApp> {
                 key: formkey,
                 child: Column(
                   children: <Widget>[
-                    //                 distanceFromUser(),
-                    //               lengthOfTrail(),
-                    //             numOfResults(),
+
+   //                 distanceFromUser(),
+     //               lengthOfTrail(),
+       //             numOfResults(),
+
                     Container(
                       margin: EdgeInsets.only(top: 25.0),
                     ),
                     submitButton(),
                     loginButton(),
+                    signupButton(),
 
                   ],
                 ),
@@ -125,12 +125,24 @@ class HomeScreen extends State<MyApp> {
   }
 
   Widget loginButton() {
+      return RaisedButton(
+        child: Text("Log In"),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => LogInScreen()),
+          );
+        },
+      );
+  }
+
+  Widget signupButton() {
     return RaisedButton(
-      child: Text("Log In"),
+      child: Text("Sign Up"),
       onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => LogInScreen()),
+          MaterialPageRoute(builder: (context) => SignUpScreen()),
         );
       },
     );
