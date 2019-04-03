@@ -8,9 +8,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 final FirebaseDatabase database = FirebaseDatabase.instance;
 final FirebaseAuth _auth = FirebaseAuth.instance;
-LogInScreenState _logInScreen;
-
-
 
 class SignUpScreen extends StatefulWidget {
   @override
