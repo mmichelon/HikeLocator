@@ -1,5 +1,6 @@
 import '../models/trail_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_share_me/flutter_share_me.dart';
 import 'dart:convert';
 import '../screens/map_screen.dart';
 class InfoScreen extends StatelessWidget {
@@ -122,9 +123,64 @@ class InfoList extends StatelessWidget{
       ),
     );
 
+    final socialShare = Container(
+      width: MediaQuery.of(context).size.width,
+      padding: EdgeInsets.all(40.0),
+      child: Center(
+        child: Row(
+          children: <Widget>[
+            RaisedButton(
+              child: Column( // Replace with a Row for horizontal icon + text
+                children: <Widget>[
+                  Icon(Icons.share, color: Colors.blue),
+                  Text('Twitter', style: TextStyle(color: Colors.white)),
+                ],
+              ),
+              onPressed: () async {
+                var response = await FlutterShareMe().shareToTwitter(
+                    url: 'https://www.google.com/maps/@'+newTrails[0][curIndex]['latitude'].toString()+','+newTrails[0][curIndex]['longitude'].toString(),
+                    msg: 'Check out this hike: '+newTrails[0][curIndex]['name']);
+                if (response == 'success') {
+                  print('navigate success');
+                }
+              },
+//              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+            ),
+            RaisedButton(
+              child: Column( // Replace with a Row for horizontal icon + text
+                children: <Widget>[
+                  Icon(Icons.share, color: Colors.green),
+                  Text('WhatsApp', style: TextStyle(color: Colors.white)),
+                ],
+              ),
+              onPressed: () {
+                FlutterShareMe().shareToWhatsApp(
+                    msg:
+                    'Check out this hike: '+newTrails[0][curIndex]['name']+' at https://www.google.com/maps/@'+newTrails[0][curIndex]['latitude'].toString()+','+newTrails[0][curIndex]['longitude'].toString());
+              },
+//              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+            ),
+            RaisedButton(
+              child: Column( // Replace with a Row for horizontal icon + text
+                children: <Widget>[
+                  Icon(Icons.share, color: Colors.blue[900]),
+                  Text('Facebook', style: TextStyle(color: Colors.white)),
+                ],
+              ),
+              onPressed: () {
+                FlutterShareMe().shareToFacebook(
+                    url: 'https://www.google.com/maps/@'+newTrails[0][curIndex]['latitude'].toString()+','+newTrails[0][curIndex]['longitude'].toString(), msg: 'Check out this hike: '+newTrails[0][curIndex]['name']);
+              },
+//              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+            ),
+          ],
+        ),
+      ),
+    );
+
     return Scaffold(
       body: Column(
-        children: <Widget>[topContent, bottomContent],
+        children: <Widget>[topContent, bottomContent, socialShare],
       ),
     );
   }
