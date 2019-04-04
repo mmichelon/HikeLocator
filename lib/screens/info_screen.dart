@@ -127,10 +127,10 @@ class InfoList extends StatelessWidget{
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.all(40.0),
       child: Center(
-        child: Row(
+        child: Column(
           children: <Widget>[
             RaisedButton(
-              child: Column( // Replace with a Row for horizontal icon + text
+              child: Row( // Replace with a Row for horizontal icon + text
                 children: <Widget>[
                   Icon(Icons.share, color: Colors.blue),
                   Text('Twitter', style: TextStyle(color: Colors.white)),
@@ -147,7 +147,7 @@ class InfoList extends StatelessWidget{
 //              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
             ),
             RaisedButton(
-              child: Column( // Replace with a Row for horizontal icon + text
+              child: Row( // Replace with a Row for horizontal icon + text
                 children: <Widget>[
                   Icon(Icons.share, color: Colors.green),
                   Text('WhatsApp', style: TextStyle(color: Colors.white)),
@@ -161,7 +161,7 @@ class InfoList extends StatelessWidget{
 //              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
             ),
             RaisedButton(
-              child: Column( // Replace with a Row for horizontal icon + text
+              child: Row( // Replace with a Row for horizontal icon + text
                 children: <Widget>[
                   Icon(Icons.share, color: Colors.blue[900]),
                   Text('Facebook', style: TextStyle(color: Colors.white)),
