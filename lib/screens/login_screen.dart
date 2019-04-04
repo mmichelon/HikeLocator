@@ -84,7 +84,7 @@ class LogInScreenState extends State<LogInScreen> {
                                           child: OutlineButton(
                                               child: Text("Login "),
                                               onPressed: () =>
-                                                  loginUser(_email, _password)),
+                                                  loginUser()),
                                           flex: 1,
                                         ),
                                         SizedBox(
@@ -143,7 +143,7 @@ class LogInScreenState extends State<LogInScreen> {
       decoration: InputDecoration(labelText: "Password", hintText: 'Password'),
       validator: (String value) {
         if (value.length < 6) {
-          return "Password must be at least 4 characters";
+          return "Password must be at least 6 characters";
         }
       },
       onSaved: (String value) {
@@ -154,14 +154,14 @@ class LogInScreenState extends State<LogInScreen> {
 
 
 
-  Future loginUser(_email, _password) async {
+  Future loginUser() async {
     formkey.currentState.save();
     if (formkey.currentState.validate()) {
       await _auth
           .signInWithEmailAndPassword(email: _email, password: _password)
           .catchError((e) {
         Fluttertoast.showToast(
-            msg: e.message,
+            msg: "Invalid email and/or password. Please try again",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.TOP,
             timeInSecForIos: 5,
@@ -185,12 +185,13 @@ class LogInScreenState extends State<LogInScreen> {
           print('======Error======== ' + e);
         });
         getSignedInUser(newUser.uid);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => MyApp()),
+        );
       });
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => MyApp()),
-      );
+
     }
   }
 
