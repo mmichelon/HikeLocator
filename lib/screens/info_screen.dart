@@ -124,14 +124,15 @@ class InfoList extends StatelessWidget{
 
     final socialShare = Container(
       width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.all(40.0),
+      padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
       child: Center(
-        child: Column(
+        child: Row(
           children: <Widget>[
             RaisedButton(
-              child: Row( // Replace with a Row for horizontal icon + text
+              color: Colors.blue,
+              child: Column( // Replace with a Row for horizontal icon + text
                 children: <Widget>[
-                  Icon(Icons.share, color: Colors.blue),
+                  Icon(Icons.share, color: Color.fromRGBO(58, 66, 86, 1.0)),
                   Text('Twitter', style: TextStyle(color: Colors.white)),
                 ],
               ),
@@ -143,12 +144,14 @@ class InfoList extends StatelessWidget{
                   print('navigate success');
                 }
               },
-//              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
             ),
+            Padding(padding: EdgeInsets.all(1.0)),
             RaisedButton(
-              child: Row( // Replace with a Row for horizontal icon + text
+              color: Colors.green,
+              child: Column( // Replace with a Row for horizontal icon + text
                 children: <Widget>[
-                  Icon(Icons.share, color: Colors.green),
+                  Icon(Icons.share, color: Color.fromRGBO(58, 66, 86, 1.0)),
                   Text('WhatsApp', style: TextStyle(color: Colors.white)),
                 ],
               ),
@@ -157,12 +160,14 @@ class InfoList extends StatelessWidget{
                     msg:
                     'Check out this hike: '+newTrails[0][curIndex]['name']+' at https://www.google.com/maps/@'+newTrails[0][curIndex]['latitude'].toString()+','+newTrails[0][curIndex]['longitude'].toString());
               },
-//              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
             ),
+            Padding(padding: EdgeInsets.all(1.0)),
             RaisedButton(
-              child: Row( // Replace with a Row for horizontal icon + text
+              color: Colors.blue[900],
+              child: Column( // Replace with a Row for horizontal icon + text
                 children: <Widget>[
-                  Icon(Icons.share, color: Colors.blue[900]),
+                  Icon(Icons.share, color: Color.fromRGBO(58, 66, 86, 1.0)),
                   Text('Facebook', style: TextStyle(color: Colors.white)),
                 ],
               ),
@@ -170,7 +175,7 @@ class InfoList extends StatelessWidget{
                 FlutterShareMe().shareToFacebook(
                     url: 'https://www.google.com/maps/@'+newTrails[0][curIndex]['latitude'].toString()+','+newTrails[0][curIndex]['longitude'].toString(), msg: 'Check out this hike: '+newTrails[0][curIndex]['name']);
               },
-//              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
             ),
           ],
         ),

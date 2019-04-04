@@ -52,7 +52,7 @@ class HomeScreen extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
           resizeToAvoidBottomPadding: false,
-          appBar: AppBar(title: Text("HikeLocator")),
+          appBar: AppBar(title: Text("HikeLocator"), backgroundColor: Colors.green[700],),
           body:
           Container(
               margin: EdgeInsets.all(20.0),
@@ -111,7 +111,8 @@ class HomeScreen extends State<MyApp> {
 
   Widget submitButton() {
     return RaisedButton(
-      child: Text("Find trails near me"),
+      color: Color.fromRGBO(58, 66, 86, 1.0),
+      child: Text("Find trails near me", style: TextStyle(color: Colors.white)),
       onPressed: () async {
         formkey.currentState.save();
         final trails = await fetchData();
@@ -126,7 +127,8 @@ class HomeScreen extends State<MyApp> {
 
   Widget loginButton() {
       return RaisedButton(
-        child: Text("Log In"),
+        color: Color.fromRGBO(58, 66, 86, 1.0),
+        child: Text("Log In", style: TextStyle(color: Colors.white)),
         onPressed: () {
           Navigator.push(
             context,
@@ -138,7 +140,8 @@ class HomeScreen extends State<MyApp> {
 
   Widget signupButton() {
     return RaisedButton(
-      child: Text("Sign Up"),
+      color: Color.fromRGBO(58, 66, 86, 1.0),
+      child: Text("Sign Up", style: TextStyle(color: Colors.white)),
       onPressed: () {
         Navigator.push(
           context,
