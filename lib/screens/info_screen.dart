@@ -24,7 +24,6 @@ class InfoList extends StatelessWidget{
   final int curIndex;
 
   InfoList(this.newTrails, this.curIndex);
-
   Widget build(BuildContext context) {
     final coursePrice = Container(
       padding: const EdgeInsets.all(7.0),
@@ -178,8 +177,8 @@ class InfoList extends StatelessWidget{
       ),
     );
 
-    return Scaffold(
-      body: Column(
+    return SingleChildScrollView(
+      child: Column(
         children: <Widget>[topContent, bottomContent, socialShare],
       ),
     );
