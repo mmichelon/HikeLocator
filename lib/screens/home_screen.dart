@@ -60,10 +60,9 @@ class HomeScreen extends State<MyApp> {
                 key: formkey,
                 child: Column(
                   children: <Widget>[
-
-   //                 distanceFromUser(),
-     //               lengthOfTrail(),
-       //             numOfResults(),
+                    distanceFromUser(),
+                    lengthOfTrail(),
+                    numOfResults(),
 
                     Container(
                       margin: EdgeInsets.only(top: 25.0),
