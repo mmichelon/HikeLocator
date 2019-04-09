@@ -5,17 +5,13 @@ import 'dart:convert';
 import '../screens/info_screen.dart';
 
 class MapScreen extends StatefulWidget {
-//  final List<TrailModel> trails;
   final List<dynamic> newTrails;
   final userLat;
   final userLon;
-//  MapScreen(this.trails, this.userLat, this.userLon);
   MapScreen(this.newTrails, this.userLat, this.userLon);
 
   @override
   _MapScreenState createState() => _MapScreenState(newTrails, userLat, userLon);
-
-//  _MapScreenState createState() => _MapScreenState(trails, userLat, userLon);
 }
 
 class _MapScreenState extends State<MapScreen> {
@@ -26,13 +22,9 @@ class _MapScreenState extends State<MapScreen> {
   double longitude = 0;
   final double userLat;
   final double userLon;
-// final List<TrailModel> trails;
   final List<dynamic> newTrails; //declare for new tails list
 
-// _MapScreenState(this.trails, this.userLat, this.userLon);
   _MapScreenState(this.newTrails, this.userLat, this.userLon);
-
-  //final LatLng _center = const LatLng(45.521563, -122.677433);
 
   /// FUNCTIONS
 
@@ -104,7 +96,6 @@ class _MapScreenState extends State<MapScreen> {
                   trackCameraPosition: true,
                   cameraPosition: CameraPosition(
                     target: LatLng(userLat, userLon),
-                    //target: LatLng(latitude, longitude),
                     zoom: 12.0,
                   ),
                 ),
@@ -155,7 +146,6 @@ class _MapScreenState extends State<MapScreen> {
                             MaterialPageRoute(builder: (context) => InfoScreen(newTrails, index)),
                           );
                         },
-//                      onTap: _onAddMarkerButtonPressed(newTrails[0][index]),
                     );
                   }
                 },

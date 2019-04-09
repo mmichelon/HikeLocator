@@ -1,14 +1,13 @@
 import '../models/trail_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share_me/flutter_share_me.dart';
+import 'comment_screen.dart';
 import 'dart:convert';
 import '../screens/map_screen.dart';
+
 class InfoScreen extends StatelessWidget {
-//  final List<TrailModel> trails;
   final List<dynamic> newTrails;
   final int curIndex;
-//  final userLat;
-//  final userLon;
   InfoScreen(this.newTrails, this.curIndex);
 
   @override
@@ -110,14 +109,27 @@ class InfoList extends StatelessWidget{
           Text("Save Hike", style: TextStyle(color: Colors.white)),
         ));
 
+    final commentButton = Container(
+        padding: EdgeInsets.symmetric(vertical: 16.0),
+        width: MediaQuery.of(context).size.width,
+        child: RaisedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CommentScreen()), //newTrails, curIndex)),
+            );
+          },
+          color: Color.fromRGBO(58, 66, 86, 1.0),
+          child:
+          Text("Comments", style: TextStyle(color: Colors.white)),
+        ));
+
     final bottomContent = Container(
-      // height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
-      // color: Theme.of(context).primaryColor,
       padding: EdgeInsets.all(40.0),
       child: Center(
         child: Column(
-          children: <Widget>[bottomContentText, readButton],
+          children: <Widget>[bottomContentText, readButton, commentButton],
         ),
       ),
     );
