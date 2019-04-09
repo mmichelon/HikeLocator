@@ -8,26 +8,23 @@ import "login_screen.dart"; //for current user
 //Access the current user's username & id
 
 class CommentScreen extends StatefulWidget {
-  final String postId;
-  final String postOwner;
-//  final String postMediaUrl;
+  final List<dynamic> newTrails;
+  final int curIndex;
+  CommentScreen({this.newTrails, this.curIndex});
 
-  const CommentScreen({this.postId, this.postOwner});
   @override
-  _CommentScreenState createState() => new _CommentScreenState(
-      postId: this.postId,
-      postOwner: this.postOwner);
-//      postMediaUrl: this.postMediaUrl);
+  _CommentScreenState createState() => _CommentScreenState(
+      newTrails: this.newTrails,
+      curIndex: this.curIndex);
 }
 
 class _CommentScreenState extends State<CommentScreen> {
-  final String postId;
-  final String postOwner;
-//  final String postMediaUrl;
+  final List<dynamic> newTrails;
+  final int curIndex;
 
   final TextEditingController _commentController = new TextEditingController();
 
-  _CommentScreenState({this.postId, this.postOwner});
+  _CommentScreenState({this.newTrails, this.curIndex});
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +77,7 @@ class _CommentScreenState extends State<CommentScreen> {
 
     QuerySnapshot data = await Firestore.instance
         .collection("hikes")
-        .document(postId)
+        .document(newTrails[0][curIndex]['id'].toString())
         .collection("comments")
         .getDocuments();
     data.documents.forEach((DocumentSnapshot doc) {
@@ -94,7 +91,7 @@ class _CommentScreenState extends State<CommentScreen> {
     _commentController.clear();
     Firestore.instance
         .collection("hikes")
-        .document(postId)
+        .document(newTrails[0][curIndex]['id'].toString())
         .collection("comments")
         .add({
       "username": mCurrentUser,

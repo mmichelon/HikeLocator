@@ -100,8 +100,8 @@ class InfoList extends StatelessWidget{
     );
 
     final readButton = Container(
-        padding: EdgeInsets.symmetric(vertical: 16.0),
-        width: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
+        width: MediaQuery.of(context).size.width/3,
         child: RaisedButton(
           onPressed: () => {},
           color: Color.fromRGBO(58, 66, 86, 1.0),
@@ -110,13 +110,13 @@ class InfoList extends StatelessWidget{
         ));
 
     final commentButton = Container(
-        padding: EdgeInsets.symmetric(vertical: 16.0),
-        width: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 5.0),
+        width: MediaQuery.of(context).size.width/3,
         child: RaisedButton(
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => CommentScreen()), //newTrails, curIndex)),
+              MaterialPageRoute(builder: (context) => CommentScreen()),//newTrails, curIndex)),
             );
           },
           color: Color.fromRGBO(58, 66, 86, 1.0),
@@ -126,17 +126,24 @@ class InfoList extends StatelessWidget{
 
     final bottomContent = Container(
       width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.all(40.0),
+      padding: EdgeInsets.all(30.0),
       child: Center(
         child: Column(
-          children: <Widget>[bottomContentText, readButton, commentButton],
+          children: <Widget>[
+            bottomContentText,
+            Center( child: Row(
+                children: <Widget>[
+                  readButton,
+                  commentButton,
+                ]),),
+          ],
         ),
       ),
     );
 
     final socialShare = Container(
       width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
+      padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 30.0),
       child: Center(
         child: Row(
           children: <Widget>[

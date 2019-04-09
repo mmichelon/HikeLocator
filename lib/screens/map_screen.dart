@@ -32,7 +32,15 @@ class _MapScreenState extends State<MapScreen> {
   /// creates controller and attempts to center map on phone location
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
+    _addTrails();
+    // add markers on list to view when map opens
+//    int trailLength = newTrails[0].length;
+//    for(int i = 0; i < trailLength; i++){
+//      _onAddMarkerButtonPressed(newTrails[0][i]);
+//    }
+  }
 
+  void _addTrails() {
     // add markers on list to view when map opens
     int trailLength = newTrails[0].length;
     for(int i = 0; i < trailLength; i++){
