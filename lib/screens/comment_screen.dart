@@ -3,27 +3,31 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import "dart:async";
 import "login_screen.dart"; //for current user
 
+//THINGS_TO_DO:
+//I need to take in the hike's information (id # & name)
+//Access the current user's username & id
+
 class CommentScreen extends StatefulWidget {
   final String postId;
   final String postOwner;
-  final String postMediaUrl;
+//  final String postMediaUrl;
 
-  const CommentScreen({this.postId, this.postOwner, this.postMediaUrl});
+  const CommentScreen({this.postId, this.postOwner});
   @override
   _CommentScreenState createState() => new _CommentScreenState(
       postId: this.postId,
-      postOwner: this.postOwner,
-      postMediaUrl: this.postMediaUrl);
+      postOwner: this.postOwner);
+//      postMediaUrl: this.postMediaUrl);
 }
 
 class _CommentScreenState extends State<CommentScreen> {
   final String postId;
   final String postOwner;
-  final String postMediaUrl;
+//  final String postMediaUrl;
 
   final TextEditingController _commentController = new TextEditingController();
 
-  _CommentScreenState({this.postId, this.postOwner, this.postMediaUrl});
+  _CommentScreenState({this.postId, this.postOwner});
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +79,7 @@ class _CommentScreenState extends State<CommentScreen> {
     List<Comment> comments = [];
 
     QuerySnapshot data = await Firestore.instance
-        .collection("insta_comments")
+        .collection("hikes")
         .document(postId)
         .collection("comments")
         .getDocuments();
@@ -89,7 +93,7 @@ class _CommentScreenState extends State<CommentScreen> {
   addComment(String comment) {
     _commentController.clear();
     Firestore.instance
-        .collection("insta_comments")
+        .collection("hikes")
         .document(postId)
         .collection("comments")
         .add({
