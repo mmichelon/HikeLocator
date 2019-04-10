@@ -47,7 +47,7 @@ class InfoList extends StatelessWidget{
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Expanded(
-                flex: 6,
+                flex: 5,
                 child: Padding(
                     padding: EdgeInsets.only(left: 10.0),
                     child: Text(
@@ -55,7 +55,7 @@ class InfoList extends StatelessWidget{
 //                      lesson.level,
                       style: TextStyle(color: Colors.white),
                     ))),
-            Expanded(flex: 1, child: coursePrice)
+            Expanded(flex: 2, child: coursePrice)
           ],
         ),
       ],
@@ -116,7 +116,7 @@ class InfoList extends StatelessWidget{
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => CommentScreen()),//newTrails, curIndex)),
+              MaterialPageRoute(builder: (context) => CommentScreen(newTrails: newTrails, curIndex: curIndex)),
             );
           },
           color: Color.fromRGBO(58, 66, 86, 1.0),

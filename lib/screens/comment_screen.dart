@@ -10,21 +10,30 @@ import "login_screen.dart"; //for current user
 class CommentScreen extends StatefulWidget {
   final List<dynamic> newTrails;
   final int curIndex;
-  CommentScreen({this.newTrails, this.curIndex});
+  const CommentScreen({Key key, this.newTrails, this.curIndex}): super(key: key);
+//  const CommentScreen({Key key, this.curIndex}): super(key: key);
 
   @override
-  _CommentScreenState createState() => _CommentScreenState(
-      newTrails: this.newTrails,
-      curIndex: this.curIndex);
+  _CommentScreenState createState() => _CommentScreenState();
+//  CommentScreen({this.newTrails, this.curIndex});
+
+//  @override
+//  _CommentScreenState createState() {
+//    return _CommentScreenState(newTrails: newTrails, curIndex: curIndex);
+//  }
+//  _CommentScreenState createState() => _CommentScreenState(
+//      newTrails: this.newTrails,
+//      curIndex: this.curIndex
+//  );
 }
 
 class _CommentScreenState extends State<CommentScreen> {
-  final List<dynamic> newTrails;
-  final int curIndex;
+//  final List<dynamic> newTrails;
+//  final int curIndex;
 
   final TextEditingController _commentController = new TextEditingController();
 
-  _CommentScreenState({this.newTrails, this.curIndex});
+//  _CommentScreenState({this.newTrails, this.curIndex});
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +86,7 @@ class _CommentScreenState extends State<CommentScreen> {
 
     QuerySnapshot data = await Firestore.instance
         .collection("hikes")
-        .document(newTrails[0][curIndex]['id'].toString())
+        .document(widget.newTrails[0][widget.curIndex]['id'].toString())
         .collection("comments")
         .getDocuments();
     data.documents.forEach((DocumentSnapshot doc) {
@@ -91,7 +100,7 @@ class _CommentScreenState extends State<CommentScreen> {
     _commentController.clear();
     Firestore.instance
         .collection("hikes")
-        .document(newTrails[0][curIndex]['id'].toString())
+        .document(widget.newTrails[0][widget.curIndex]['id'].toString())
         .collection("comments")
         .add({
       "username": mCurrentUser,
