@@ -2,18 +2,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
-import 'screens/home_screen.dart';
 FirebaseUser mCurrentUser;
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final formkey = new GlobalKey<FormState>();
 String _email;
 String _password;
-//final formkey = GlobalKey<FormState>();
-String _emailCreate = '';
-String _passwordCreate = '';
+
 String _firstname = '';
 String _lastname = '';
 String _confirm = "";
+
 
 Widget emailField() {
   return TextFormField(
@@ -96,10 +94,7 @@ loginUser(context) async {
         print('======Error======== ' + e);
       });
       welcomeUser();
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => MyApp()),
-      );
+      Navigator.of(context).pop();
     });
 
 
@@ -138,7 +133,7 @@ createUser(context) async {
     await _auth
         .createUserWithEmailAndPassword(email: _email, password: _password)
         .then((newUser) {
-      print("Email: ${newUser.email}");
+     welcomeUser();
       Navigator.of(context).pop();
       addToDatabase(newUser.uid, _firstname, _lastname, newUser.email);
     }).catchError((e) {
@@ -158,41 +153,8 @@ createUser(context) async {
 
 signOutUser () async{
   await _auth.signOut();
-}
 
-Widget createEmailField() {
-  return TextFormField(
-    keyboardType: TextInputType.emailAddress,
-    decoration: InputDecoration(
-        labelText: "Email Address", hintText: 'me@example.com'),
-    validator: (String value) {
-      RegExp exp = new RegExp(r"\w+@\w+\.\w+");
-      if (!exp.hasMatch(value)) {
-        formkey.currentState.reset();
-        return 'Please enter a valid email';
-      }
-    },
-    onSaved: (String value) {
-      _emailCreate = value;
-    },
-  );
 }
-
-Widget createPasswordField() {
-  return TextFormField(
-    obscureText: true,
-    decoration: InputDecoration(labelText: "Password"),
-    validator: (String value) {
-      if (value.length < 6) {
-        return "Password must be at least 6 characters";
-      }
-    },
-    onSaved: (String value) {
-      _passwordCreate = value;
-    },
-  );
-}
-
 Widget confirmField() {
   return TextFormField(
     obscureText: true,
