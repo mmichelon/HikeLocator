@@ -124,14 +124,12 @@ welcomeUser() async{
 }
  getSignedInUser() async {
   mCurrentUser = await FirebaseAuth.instance.currentUser();
-  //final uid = mCurrentUser.uid;
   if(mCurrentUser == null || mCurrentUser.isAnonymous){
-    print("no user signed in");
+    return null;
   }
   else{
-    print(mCurrentUser.uid);
+    return mCurrentUser;
   }
-
 }
 createUser(context) async {
   formkey.currentState.save();

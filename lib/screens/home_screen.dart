@@ -71,8 +71,6 @@ class HomeScreen extends State<MyApp> {
                     loginButton(),
                     signupButton(),
                     logoutButton(),
-                    checkUserButton(),
-
                   ],
                 ),
               )
@@ -144,15 +142,6 @@ class HomeScreen extends State<MyApp> {
       child: Text("Log Out", style: TextStyle(color: Colors.white)),
       onPressed: () {
         signOutUser();
-      },
-    );
-  }
-  Widget checkUserButton() {
-    return RaisedButton(
-      color: Color.fromRGBO(58, 66, 86, 1.0),
-      child: Text("who's signed in?", style: TextStyle(color: Colors.white)),
-      onPressed: () {
-        getSignedInUser();
       },
     );
   }
