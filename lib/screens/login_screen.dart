@@ -1,12 +1,5 @@
-
 import '../authentication.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-
-final FirebaseDatabase database = FirebaseDatabase.instance;
-
-
-
 
 class LogInScreen extends StatefulWidget {
   @override
@@ -14,10 +7,7 @@ class LogInScreen extends StatefulWidget {
     return LogInScreenState();
   }
 }
-
 class LogInScreenState extends State<LogInScreen> {
-
-
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -68,7 +58,6 @@ class LogInScreenState extends State<LogInScreen> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Column(
                                   children: <Widget>[
-
                                     Row(
                                       children: <Widget>[
                                         Expanded(
@@ -111,7 +100,4 @@ class LogInScreenState extends State<LogInScreen> {
       ),
     );
   }
-
-
-
 }

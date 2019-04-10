@@ -8,8 +8,6 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class  SignUpScreenState extends State<SignUpScreen> {
-
-
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -20,7 +18,6 @@ class  SignUpScreenState extends State<SignUpScreen> {
         //height: 30.0,
         //fit: BoxFit.fitHeight,),
         elevation: 0.0,
-
         centerTitle: true,
         backgroundColor: Colors.black12,
       ),
@@ -54,12 +51,12 @@ class  SignUpScreenState extends State<SignUpScreen> {
                         width: 20.0,
                         height: 20.0,
                       ),
-                      createEmailField(),
+                      emailField(),
                       SizedBox(
                         width: 20.0,
                         height: 20.0,
                       ),
-                      createPasswordField(),
+                      passwordField(),
                       SizedBox(
                         width: 20.0,
                         height: 20.0,
@@ -93,6 +90,5 @@ class  SignUpScreenState extends State<SignUpScreen> {
       ),
     );
   }
-
 
 }
