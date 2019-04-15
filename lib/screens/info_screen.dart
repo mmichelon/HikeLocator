@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_share_me/flutter_share_me.dart';
 import 'dart:convert';
 import '../screens/map_screen.dart';
+import '../authentication.dart';
 class InfoScreen extends StatelessWidget {
 //  final List<TrailModel> trails;
   final List<dynamic> newTrails;
@@ -48,7 +49,7 @@ class InfoList extends StatelessWidget{
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Expanded(
-                flex: 6,
+                flex: 5,
                 child: Padding(
                     padding: EdgeInsets.only(left: 10.0),
                     child: Text(
@@ -56,7 +57,7 @@ class InfoList extends StatelessWidget{
 //                      lesson.level,
                       style: TextStyle(color: Colors.white),
                     ))),
-            Expanded(flex: 1, child: coursePrice)
+            Expanded(flex: 2, child: coursePrice)
           ],
         ),
       ],
@@ -104,7 +105,11 @@ class InfoList extends StatelessWidget{
         padding: EdgeInsets.symmetric(vertical: 16.0),
         width: MediaQuery.of(context).size.width,
         child: RaisedButton(
-          onPressed: () => {},
+          onPressed: () => {
+            addTrailToDatabase( newTrails[0][curIndex]['id'].toString(),  newTrails[0][curIndex]['name'].toString()
+                ,  newTrails[0][curIndex]['location'].toString())
+
+          },
           color: Color.fromRGBO(58, 66, 86, 1.0),
           child:
           Text("Save Hike", style: TextStyle(color: Colors.white)),
