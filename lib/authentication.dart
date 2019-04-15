@@ -46,21 +46,61 @@ Widget passwordField() {
 
 
 
-addToDatabase(String uid, fname, lname, email) async{
+addUserToDatabase(String uid, fname, lname, email) async{
   Firestore.instance
       .collection('users')
       .document(uid)
-      .collection('profile')
+      .collection('userInfo')
       .document('profile')
       .setData({
     'First Name': fname,
     'Last Name': lname,
     'Email': email
   })
-      .then((onValue) {
-    print('Created it in sub collection');
-  }).catchError((e) {
-    print('======Error======== ' + e);
+.catchError((e) {
+    Fluttertoast.showToast(
+        msg: "User creation failed: $e",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.TOP,
+        timeInSecForIos: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
+  });
+}
+addTrailToDatabase(trailId, trailName, trailLoc) async{
+  var user = await getSignedInUser();
+  Firestore.instance
+      .collection('users')
+      .document(user.uid)
+      .collection('userInfo')
+      .document('trails')
+      .setData({
+    'Trail ID': trailId,
+    'Trail Name': trailName,
+    'Trail Location': trailLoc
+  }).then((onValue) {
+    Fluttertoast.showToast(
+        msg: "trail successfully added",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.TOP,
+        timeInSecForIos: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
+  })
+      .catchError((e) {
+    Fluttertoast.showToast(
+        msg: "Trail could not be added: $e",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.TOP,
+        timeInSecForIos: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
   });
 }
 loginUser(context) async {
@@ -71,7 +111,7 @@ loginUser(context) async {
         .catchError((e) {
       Fluttertoast.showToast(
           msg: "Invalid email and/or password. Please try again",
-          toastLength: Toast.LENGTH_SHORT,
+          toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.TOP,
           timeInSecForIos: 5,
           backgroundColor: Colors.red,
@@ -87,11 +127,16 @@ loginUser(context) async {
           .document('userInfo')
           .setData({
         'Last login': now,
-      })
-          .then((onValue) {
-        print('Created it in sub collection');
       }).catchError((e) {
-        print('======Error======== ' + e);
+        Fluttertoast.showToast(
+            msg: "Update user failed: $e",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.TOP,
+            timeInSecForIos: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
       });
       welcomeUser();
       Navigator.of(context).pop();
@@ -108,13 +153,15 @@ welcomeUser() async{
   String myResult = result['First Name'];
   Fluttertoast.showToast(
       msg: "Welcome $myResult!",
-      toastLength: Toast.LENGTH_SHORT,
+      toastLength: Toast.LENGTH_LONG,
       gravity: ToastGravity.TOP,
       timeInSecForIos: 1,
       backgroundColor: Colors.red,
       textColor: Colors.white,
       fontSize: 16.0
   );
+
+
 
 }
  getSignedInUser() async {
@@ -132,15 +179,15 @@ createUser(context) async {
 
     await _auth
         .createUserWithEmailAndPassword(email: _email, password: _password)
-        .then((newUser) {
-     welcomeUser();
+        .then((newUser) {          
       Navigator.of(context).pop();
-      addToDatabase(newUser.uid, _firstname, _lastname, newUser.email);
+      welcomeUser();
+      addUserToDatabase(newUser.uid, _firstname, _lastname, newUser.email);
     }).catchError((e) {
       formkey.currentState.reset();
       Fluttertoast.showToast(
           msg: "Email address already exists",
-          toastLength: Toast.LENGTH_SHORT,
+          toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.TOP,
           timeInSecForIos: 1,
           backgroundColor: Colors.red,
