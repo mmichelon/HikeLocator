@@ -1,19 +1,5 @@
-import 'dart:async';
-
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
+import '../authentication.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'home_screen.dart';
-import 'signup_screen.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-
-SignUpScreenState signupscreen;
-
-final FirebaseDatabase database = FirebaseDatabase.instance;
-final FirebaseAuth _auth = FirebaseAuth.instance;
-
-FirebaseUser mCurrentUser;
 
 class LogInScreen extends StatefulWidget {
   @override
@@ -21,12 +7,7 @@ class LogInScreen extends StatefulWidget {
     return LogInScreenState();
   }
 }
-
 class LogInScreenState extends State<LogInScreen> {
-  String _email;
-  String _password;
-  final formkey = new GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -77,14 +58,13 @@ class LogInScreenState extends State<LogInScreen> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Column(
                                   children: <Widget>[
-
                                     Row(
                                       children: <Widget>[
                                         Expanded(
                                           child: OutlineButton(
                                               child: Text("Login "),
                                               onPressed: () =>
-                                                  loginUser()),
+                                                  loginUser(context)),
                                           flex: 1,
                                         ),
                                         SizedBox(
@@ -118,98 +98,6 @@ class LogInScreenState extends State<LogInScreen> {
           ),
         ],
       ),
-    );
-  }
-
-  Widget emailField() {
-    return TextFormField(
-      keyboardType: TextInputType.emailAddress,
-      decoration: InputDecoration(
-          labelText: "Email Address", hintText: 'me@example.com'),
-      validator: (String value) {
-        if (!value.contains('@')) {
-          return 'Please enter a valid email';
-        }
-      },
-      onSaved: (String value) {
-        _email = value;
-      },
-    );
-  }
-
-  Widget passwordField() {
-    return TextFormField(
-      obscureText: true,
-      decoration: InputDecoration(labelText: "Password", hintText: 'Password'),
-      validator: (String value) {
-        if (value.length < 6) {
-          return "Password must be at least 6 characters";
-        }
-      },
-      onSaved: (String value) {
-        _password = value;
-      },
-    );
-  }
-
-
-
-  Future loginUser() async {
-    formkey.currentState.save();
-    if (formkey.currentState.validate()) {
-      await _auth
-          .signInWithEmailAndPassword(email: _email, password: _password)
-          .catchError((e) {
-        Fluttertoast.showToast(
-            msg: "Invalid email and/or password. Please try again",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.TOP,
-            timeInSecForIos: 5,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0
-        );
-      }).then((newUser) {
-        var now = new DateTime.now();
-        Firestore.instance
-            .collection('users')
-            .document(newUser.uid)
-            .collection('userInfo')
-            .document('userInfo')
-            .setData({
-          'Last login': now,
-        })
-            .then((onValue) {
-          print('Created it in sub collection');
-        }).catchError((e) {
-          print('======Error======== ' + e);
-        });
-        getSignedInUser(newUser.uid);
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => MyApp()),
-        );
-      });
-
-
-    }
-  }
-
-
-  getSignedInUser(String uid) async {
-    mCurrentUser = await _auth.currentUser();
-    DocumentSnapshot result = await Firestore.instance.collection('users')
-        .document(uid).collection('profile').document('profile')
-        .get();
-    String myResult = result['First Name'];
-    Fluttertoast.showToast(
-        msg: "Welcome $myResult!",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.TOP,
-        timeInSecForIos: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0
     );
   }
 }

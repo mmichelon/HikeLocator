@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -6,8 +7,7 @@ import '../screens/map_screen.dart';
 import '../models/trail_model.dart';
 import 'login_screen.dart';
 import 'signup_screen.dart';
-
-LogInScreenState loginScreen = new LogInScreenState();
+import '../authentication.dart';
 
 class MyApp extends StatefulWidget {
   @override
@@ -70,7 +70,7 @@ class HomeScreen extends State<MyApp> {
                     submitButton(),
                     loginButton(),
                     signupButton(),
-
+                    logoutButton(),
                   ],
                 ),
               )
@@ -125,16 +125,25 @@ class HomeScreen extends State<MyApp> {
   }
 
   Widget loginButton() {
-      return RaisedButton(
-        color: Color.fromRGBO(58, 66, 86, 1.0),
-        child: Text("Log In", style: TextStyle(color: Colors.white)),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => LogInScreen()),
-          );
-        },
-      );
+    return RaisedButton(
+      color: Color.fromRGBO(58, 66, 86, 1.0),
+      child: Text("Log In", style: TextStyle(color: Colors.white)),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => LogInScreen()),
+        );
+      },
+    );
+  }
+  Widget logoutButton() {
+    return RaisedButton(
+      color: Color.fromRGBO(58, 66, 86, 1.0),
+      child: Text("Log Out", style: TextStyle(color: Colors.white)),
+      onPressed: () {
+        signOutUser();
+      },
+    );
   }
 
   Widget signupButton() {

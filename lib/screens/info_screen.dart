@@ -4,6 +4,8 @@ import 'package:flutter_share_me/flutter_share_me.dart';
 import 'comment_screen.dart';
 import 'dart:convert';
 import '../screens/map_screen.dart';
+import '../authentication.dart';
+
 
 class InfoScreen extends StatelessWidget {
   final List<dynamic> newTrails;
@@ -103,7 +105,11 @@ class InfoList extends StatelessWidget{
         padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
         width: MediaQuery.of(context).size.width/3,
         child: RaisedButton(
-          onPressed: () => {},
+          onPressed: () => {
+            addTrailToDatabase( newTrails[0][curIndex]['id'].toString(),  newTrails[0][curIndex]['name'].toString()
+                ,  newTrails[0][curIndex]['location'].toString())
+
+          },
           color: Color.fromRGBO(58, 66, 86, 1.0),
           child:
           Text("Save Hike", style: TextStyle(color: Colors.white)),
