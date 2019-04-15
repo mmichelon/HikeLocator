@@ -50,8 +50,6 @@ addUserToDatabase(String uid, fname, lname, email) async{
   Firestore.instance
       .collection('users')
       .document(uid)
-      .collection('userInfo')
-      .document('profile')
       .setData({
     'First Name': fname,
     'Last Name': lname,
@@ -74,8 +72,8 @@ addTrailToDatabase(trailId, trailName, trailLoc) async{
   Firestore.instance
       .collection('users')
       .document(user.uid)
-      .collection('userInfo')
-      .document('trails')
+      .collection('trails')
+      .document(trailId)
       .setData({
     'Trail ID': trailId,
     'Trail Name': trailName,
@@ -179,7 +177,7 @@ createUser(context) async {
 
     await _auth
         .createUserWithEmailAndPassword(email: _email, password: _password)
-        .then((newUser) {          
+        .then((newUser) {
       Navigator.of(context).pop();
       welcomeUser();
       addUserToDatabase(newUser.uid, _firstname, _lastname, newUser.email);
