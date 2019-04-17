@@ -39,7 +39,7 @@ class ProfileScreenState extends State <ProfileScreen> {
     final topContent = Stack(
       children: <Widget>[
         Container(
-          height: MediaQuery.of(context).size.height * 0.40,
+          height: MediaQuery.of(context).size.height * 0.30,
           padding: EdgeInsets.all(40.0),
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(color: Color.fromRGBO(58, 66, 86, .9)),
@@ -77,18 +77,31 @@ class ProfileScreenState extends State <ProfileScreen> {
             topContent,
             bottomContentText,
             Expanded(
-            child: GridView.count(
-          // Create a grid with 2 columns. If you change the scrollDirection to
-          // horizontal, this would produce 2 rows.
-          crossAxisCount: 2,
-          // Generate 100 Widgets that display their index in the List
-          children: List.generate(_widgets.length, (index) {
-            return GridTile(
-              child:
-                _widgets[index]
-            );
-          }),
-        ))]),
+            child: ListView.builder(
+              itemCount: _widgets.length,
+              itemBuilder: (context, int index) {
+                if(_widgets.length > index) {
+                  return ListTile(
+                    contentPadding: EdgeInsets.symmetric(
+                        horizontal: 20.0, vertical: 10.0),
+                    leading: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                      ),
+                      padding: EdgeInsets.all(10.0),
+                      margin: EdgeInsets.all(10.0),
+                      child: _widgets[index]
+                    ),
+                    onTap: () {
+                     /* Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => InfoScreen(newTrails, index)),
+                      );*/
+                    },
+                  );
+                }
+              },
+            ))]),
       )
     );
   }
