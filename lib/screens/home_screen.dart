@@ -159,22 +159,22 @@ class HomeScreen extends State<MyApp> {
         DocumentReference doc = Firestore.instance.collection("users").document(user.uid);
         QuerySnapshot querySnapshot = await Firestore.instance.collection("users").document(user.uid).collection("trails").getDocuments();
         var list = querySnapshot.documents;
+
         List<Widget> _widgets = list.map((doc) =>
            Column(
-            children:<Widget>[
-              Image.network(doc.data["Image Url"].toString()),
-              Container(
-              margin: const EdgeInsets.all(15.0),
-              padding: const EdgeInsets.all(3.0),
-              //decoration: new BoxDecoration(
-              //  border: new Border.all(color: Colors.blueAccent)
-              //),
-            child:  Text(
-            "${doc.data["Trail Name"].toString()}  \n"
-                "${doc.data["Trail Location"].toString()}",
-            style: TextStyle(color: Colors.black,),
-          ),
-        ),
+                 children: <Widget>[
+                 Row(
+                   mainAxisAlignment: MainAxisAlignment.start,
+                   children: <Widget>[
+                     Expanded(flex: 2, child: Image.network(doc.data["Image Url"].toString() , fit: BoxFit.cover)),
+                     Expanded(flex: 1, child: Text(""),),
+                     Expanded(flex: 3, child: Text(
+                      "${doc.data["Trail Name"].toString()}  \n"
+                      "${doc.data["Trail Location"].toString()}",
+                      style: TextStyle(color: Colors.black,),
+                      ),)
+                   ],
+                 ),
             ],)
           ).toList();
         var firstName = "doesn't exist";
