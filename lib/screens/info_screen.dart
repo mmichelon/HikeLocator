@@ -1,9 +1,6 @@
-import '../models/trail_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share_me/flutter_share_me.dart';
 import 'comment_screen.dart';
-import 'dart:convert';
-import '../screens/map_screen.dart';
 import '../authentication.dart';
 
 
@@ -138,7 +135,7 @@ class InfoList extends StatelessWidget{
         child: RaisedButton(
           onPressed: () => {
             addTrailToDatabase( newTrails[0][curIndex]['id'].toString(),  newTrails[0][curIndex]['name'].toString(),
-                newTrails[0][curIndex]['location'].toString())
+                newTrails[0][curIndex]['location'].toString(), newTrails[0][curIndex]['imgSmall'])
 
           },
           color: Color.fromRGBO(58, 66, 86, 1.0),

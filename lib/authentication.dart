@@ -67,7 +67,7 @@ addUserToDatabase(String uid, fname, lname, email) async{
     );
   });
 }
-addTrailToDatabase(trailId, trailName, trailLoc) async{
+addTrailToDatabase(trailId, trailName, trailLoc, trailUrl) async{
   var user = await getSignedInUser();
   Firestore.instance
       .collection('users')
@@ -77,7 +77,8 @@ addTrailToDatabase(trailId, trailName, trailLoc) async{
       .setData({
     'Trail ID': trailId,
     'Trail Name': trailName,
-    'Trail Location': trailLoc
+    'Trail Location': trailLoc,
+    'Image Url': trailUrl
   }).then((onValue) {
     Fluttertoast.showToast(
         msg: "trail successfully added",
@@ -139,8 +140,6 @@ loginUser(context) async {
       welcomeUser();
       Navigator.of(context).pop();
     });
-
-
   }
 }
 welcomeUser() async{
