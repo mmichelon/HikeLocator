@@ -26,54 +26,63 @@ class InfoList extends StatelessWidget{
 
   InfoList(this.newTrails, this.curIndex);
   Widget build(BuildContext context) {
-    final coursePrice = Container(
+
+    final trailStars = Container(
       padding: const EdgeInsets.all(7.0),
       decoration: new BoxDecoration(
-          border: new Border.all(color: Colors.white),
+          border: new Border.all(color: Colors.black),
           borderRadius: BorderRadius.circular(10.0)),
       child: new Text(
-          newTrails[0][curIndex]['stars'].toString()+"/5" + " Star",
-        style: TextStyle(color: Colors.white),
+          newTrails[0][curIndex]['stars'].toString()+"/5" + " Stars", textAlign: TextAlign.center,
+        style: TextStyle(color: Colors.black),
+      ),
+    );
+
+    final trailLength = Container(
+      padding: const EdgeInsets.all(7.0),
+      decoration: new BoxDecoration(
+          border: new Border.all(color: Colors.black),
+          borderRadius: BorderRadius.circular(10.0)),
+      child: new Text(
+        newTrails[0][curIndex]['length'].toString() + " Miles", textAlign: TextAlign.center,
+        style: TextStyle(color: Colors.black),
       ),
     );
 
     final topContentText = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-          Image.network(newTrails[0][curIndex]['imgSmall']),
-        Text(
-          newTrails[0][curIndex]['name'].toString(),
-          style: TextStyle(color: Colors.white, ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+        Image.network(newTrails[0][curIndex]['imgSmallMed'], fit: BoxFit.cover),
+      ],
+    );
+
+    final trailName = Text(
+      newTrails[0][curIndex]['name'].toString() + "\n",
+      style: TextStyle(color: Colors.green, fontSize: 30.0, fontWeight: FontWeight.bold),
+    );
+
+    final trailDetails = Container(
+      width: MediaQuery.of(context).size.width,
+      padding: EdgeInsets.all(30.0),
+      child: Center(
+        child: Column(
           children: <Widget>[
-            Expanded(
-                flex: 5,
-                child: Padding(
-                    padding: EdgeInsets.only(left: 10.0),
-                    child: Text(
-                      newTrails[0][curIndex]['length'].toString() + " Miles",
-//                      lesson.level,
-                      style: TextStyle(color: Colors.white),
-                    ))),
-            Expanded(flex: 2, child: coursePrice)
+            trailName,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+              Expanded(flex: 2, child: trailLength),
+              Expanded(flex: 1, child: Text(""),),
+              Expanded(flex: 2, child: trailStars)
+              ],
+            ),
           ],
         ),
-      ],
+      ),
     );
 
     final topContent = Stack(
       children: <Widget>[
-        Container(
-            padding: EdgeInsets.only(left: 10.0),
-            height: MediaQuery.of(context).size.height * 0.5,
-            decoration: new BoxDecoration(
-              image: new DecorationImage(
-                image: new AssetImage("drive-steering-wheel.jpg"),
-                fit: BoxFit.cover,
-              ),
-            )),
         Container(
           height: MediaQuery.of(context).size.height * 0.5,
           padding: EdgeInsets.all(40.0),
@@ -96,8 +105,30 @@ class InfoList extends StatelessWidget{
       ],
     );
 
-    final bottomContentText = Text(
+    final trailConditionsGeneralStatus = Text(
+      "Condition: " + newTrails[0][curIndex]['conditionStatus'].toString(),
+      style: TextStyle(color: Colors.red, fontSize: 24.0, decoration: TextDecoration.underline),
+    );
+
+    final summaryText = Text(
+      "Details:\n",
+      style: TextStyle(color: Colors.black, fontSize: 24.0, decoration: TextDecoration.underline),
+    );
+
+    final trailSummary  = new Container();
+
+    final trailConditionsSummary = Text(
       newTrails[0][curIndex]['summary'].toString(),
+      style: TextStyle(color: Colors.black, fontSize: 18.0),
+    );
+
+    final trailConditionsDate = Text(
+      "Last Updated: " + newTrails[0][curIndex]['conditionDate'].toString() + "\n",
+      style: TextStyle(fontSize: 15.0),
+    );
+
+    final trailConditionsDetails = Text(
+          newTrails[0][curIndex]['conditionDetails'].toString() + "\n",
       style: TextStyle(fontSize: 18.0),
     );
 
@@ -106,8 +137,8 @@ class InfoList extends StatelessWidget{
         width: MediaQuery.of(context).size.width/3,
         child: RaisedButton(
           onPressed: () => {
-            addTrailToDatabase( newTrails[0][curIndex]['id'].toString(),  newTrails[0][curIndex]['name'].toString()
-                ,newTrails[0][curIndex]['location'].toString())
+            addTrailToDatabase( newTrails[0][curIndex]['id'].toString(),  newTrails[0][curIndex]['name'].toString(),
+                newTrails[0][curIndex]['location'].toString())
 
           },
           color: Color.fromRGBO(58, 66, 86, 1.0),
@@ -136,7 +167,11 @@ class InfoList extends StatelessWidget{
       child: Center(
         child: Column(
           children: <Widget>[
-            bottomContentText,
+            trailConditionsGeneralStatus,
+            trailConditionsDate,
+            trailConditionsDetails,
+            summaryText,
+            trailConditionsSummary,
             Center( child: Row(
                 children: <Widget>[
                   readButton,
@@ -209,7 +244,7 @@ class InfoList extends StatelessWidget{
 
     return SingleChildScrollView(
       child: Column(
-        children: <Widget>[topContent, bottomContent, socialShare],
+        children: <Widget>[topContent, trailDetails, bottomContent, socialShare],
       ),
     );
   }
