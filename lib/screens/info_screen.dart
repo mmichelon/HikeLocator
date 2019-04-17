@@ -1,15 +1,15 @@
 import '../models/trail_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share_me/flutter_share_me.dart';
+import 'comment_screen.dart';
 import 'dart:convert';
 import '../screens/map_screen.dart';
 import '../authentication.dart';
+
+
 class InfoScreen extends StatelessWidget {
-//  final List<TrailModel> trails;
   final List<dynamic> newTrails;
   final int curIndex;
-//  final userLat;
-//  final userLon;
   InfoScreen(this.newTrails, this.curIndex);
 
   @override
@@ -102,8 +102,8 @@ class InfoList extends StatelessWidget{
     );
 
     final readButton = Container(
-        padding: EdgeInsets.symmetric(vertical: 16.0),
-        width: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
+        width: MediaQuery.of(context).size.width/3,
         child: RaisedButton(
           onPressed: () => {
             addTrailToDatabase( newTrails[0][curIndex]['id'].toString(),  newTrails[0][curIndex]['name'].toString()
@@ -115,21 +115,41 @@ class InfoList extends StatelessWidget{
           Text("Save Hike", style: TextStyle(color: Colors.white)),
         ));
 
+    final commentButton = Container(
+        padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 5.0),
+        width: MediaQuery.of(context).size.width/3,
+        child: RaisedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CommentScreen(newTrails: newTrails, curIndex: curIndex)),
+            );
+          },
+          color: Color.fromRGBO(58, 66, 86, 1.0),
+          child:
+          Text("Comments", style: TextStyle(color: Colors.white)),
+        ));
+
     final bottomContent = Container(
-      // height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
-      // color: Theme.of(context).primaryColor,
-      padding: EdgeInsets.all(40.0),
+      padding: EdgeInsets.all(30.0),
       child: Center(
         child: Column(
-          children: <Widget>[bottomContentText, readButton],
+          children: <Widget>[
+            bottomContentText,
+            Center( child: Row(
+                children: <Widget>[
+                  readButton,
+                  commentButton,
+                ]),),
+          ],
         ),
       ),
     );
 
     final socialShare = Container(
       width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
+      padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 30.0),
       child: Center(
         child: Row(
           children: <Widget>[
