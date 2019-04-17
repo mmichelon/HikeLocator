@@ -146,8 +146,7 @@ loginUser(context) async {
 welcomeUser() async{
   mCurrentUser = await _auth.currentUser();
   DocumentSnapshot result = await Firestore.instance.collection('users')
-      .document(mCurrentUser.uid).collection('profile').document('profile')
-      .get();
+      .document(mCurrentUser.uid).get();
   String myResult = result['First Name'];
   Fluttertoast.showToast(
       msg: "Welcome $myResult!",

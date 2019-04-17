@@ -139,6 +139,7 @@ class InfoList extends StatelessWidget{
           onPressed: () => {
             addTrailToDatabase( newTrails[0][curIndex]['id'].toString(),  newTrails[0][curIndex]['name'].toString(),
                 newTrails[0][curIndex]['location'].toString())
+
           },
           color: Color.fromRGBO(58, 66, 86, 1.0),
           child:

@@ -8,10 +8,12 @@ import '../models/trail_model.dart';
 import 'login_screen.dart';
 import 'signup_screen.dart';
 import '../authentication.dart';
+import 'profile_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatefulWidget{
   @override
-  State<StatefulWidget> createState() {
+  State<StatefulWidget> createState(){
     return HomeScreen();
   }
 }
@@ -22,11 +24,9 @@ class HomeScreen extends State<MyApp> {
   double distance = 10;
   double length = 0;
   double results = 10;
-
   final formkey = GlobalKey<FormState>();
   List<TrailModel> trails = [];
   List<dynamic> finalTrails = [];
-
   Future<List<dynamic>> fetchData() async {
     Position position = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
@@ -48,22 +48,22 @@ class HomeScreen extends State<MyApp> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return MaterialApp(
       home: Scaffold(
           resizeToAvoidBottomPadding: false,
-          appBar: AppBar(title: Text("HikeLocator"), backgroundColor: Colors.green[700],),
-          body:
-          Container(
+          appBar: AppBar(title: Text("HikeLocator"), backgroundColor: Colors.green[700],
+          ),
+          body: Container(
               margin: EdgeInsets.all(20.0),
               child: Form(
                 key: formkey,
-                child: Column(
+                child:
+                Column(
                   children: <Widget>[
                     distanceFromUser(),
                     lengthOfTrail(),
                     numOfResults(),
-
                     Container(
                       margin: EdgeInsets.only(top: 25.0),
                     ),
@@ -71,10 +71,12 @@ class HomeScreen extends State<MyApp> {
                     loginButton(),
                     signupButton(),
                     logoutButton(),
+                    profile(),
                   ],
                 ),
               )
-          )),
+          ),
+      ),
     );
   }
 
@@ -97,7 +99,6 @@ class HomeScreen extends State<MyApp> {
       },
     );
   }
-
   Widget numOfResults() {
     return TextFormField(
       decoration: InputDecoration(
@@ -136,16 +137,70 @@ class HomeScreen extends State<MyApp> {
       },
     );
   }
-  Widget logoutButton() {
-    return RaisedButton(
-      color: Color.fromRGBO(58, 66, 86, 1.0),
-      child: Text("Log Out", style: TextStyle(color: Colors.white)),
-      onPressed: () {
-        signOutUser();
-      },
-    );
+
+
+
+  Widget logoutButton(){
+      return RaisedButton(
+        color: Color.fromRGBO(58, 66, 86, 1.0),
+        child: Text("Log Out", style: TextStyle(color: Colors.white)),
+        onPressed: () async {
+          await signOutUser();
+        }
+      );
   }
 
+  Widget profile() {
+    return RaisedButton(
+      color: Color.fromRGBO(58, 66, 86, 1.0),
+      child: Text("Profile", style: TextStyle(color: Colors.white)),
+      onPressed: () async{
+        var user = await getSignedInUser();
+        DocumentReference doc = Firestore.instance.collection("users").document(user.uid);
+        QuerySnapshot querySnapshot = await Firestore.instance.collection("users").document(user.uid).collection("trails").getDocuments();
+        var list = querySnapshot.documents;
+        List<Widget> _widgets = list.map((doc) =>
+          Container(
+          margin: const EdgeInsets.all(15.0),
+          padding: const EdgeInsets.all(3.0),
+          decoration: new BoxDecoration(
+              border: new Border.all(color: Colors.blueAccent)
+          ),
+          child:  Text(
+            "${doc.data["Trail Name"].toString()}  \n"
+                "${doc.data["Trail Location"].toString()}",
+            style: TextStyle(color: Colors.black,),
+
+          ),
+        )
+
+
+          ).toList();
+        var firstName = "doesn't exist";
+        var lastName = "doesn't exist";
+        var email = "doesn't exist";
+        await doc.get().then((onValue){
+          if(onValue.exists){
+            firstName = onValue.data['First Name'];
+            lastName = onValue.data['Last Name'];
+            email = onValue.data['Email'];
+          }
+          else{
+            print(firstName);
+            print(lastName);
+            print(email);
+          }
+        });
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ProfileScreen(firstName, lastName, email, _widgets),
+        )
+        );
+        },
+
+    );
+  }
   Widget signupButton() {
     return RaisedButton(
       color: Color.fromRGBO(58, 66, 86, 1.0),
