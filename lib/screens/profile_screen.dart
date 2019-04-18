@@ -63,10 +63,13 @@ class ProfileScreenState extends State <ProfileScreen> {
     final bottomContentText = Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Text(
-            "Favorite Trails",
-            style: TextStyle(fontSize: 18.0),
-          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              "Favorite Trails\n",
+              style: TextStyle(fontSize: 20.0, decoration: TextDecoration.underline),
+            ),
+          )
         ]
     );
 
@@ -88,8 +91,8 @@ class ProfileScreenState extends State <ProfileScreen> {
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.black),
                       ),
-                      padding: EdgeInsets.all(10.0),
-                      margin: EdgeInsets.all(10.0),
+                      padding: EdgeInsets.all(5.0),
+                      margin: EdgeInsets.all(20.0),
                       child: _widgets[index]
                     ),
                     onTap: () {
@@ -101,6 +104,8 @@ class ProfileScreenState extends State <ProfileScreen> {
                   );
                 }
               },
+//            ))]),
+
             ))]),
       )
     );
