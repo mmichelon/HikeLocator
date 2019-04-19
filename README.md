@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/ChicoState/HikeLocator.svg?branch=master)](https://travis-ci.org/ChicoState/HikeLocator)
+[![Build Status](https://travis-ci.org/mmichelon/HikeLocator.svg?branch=master)](https://travis-ci.org/mmichelon/HikeLocator)
 
 # hike_locator
 
