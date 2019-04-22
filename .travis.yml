@@ -1,4 +1,6 @@
 language: android
+install: ant deps
+
 android:
   components:
   # Uncomment the lines below if you want to
