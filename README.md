@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/mmichelon/HikeLocator.svg?branch=master)](https://travis-ci.org/mmichelon/HikeLocator)
-
 # hike_locator
 
 Locate and direct to hiking trails
